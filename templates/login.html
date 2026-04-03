@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .login-container {
+            background: white;
+            display: flex;
+            max-width: 800px;
+            width: 100%;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .login-form {
+            flex: 1;
+            padding: 40px;
+        }
+
+        .login-form h2 {
+            margin-bottom: 10px;
+            font-size: 24px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .login-form p {
+            margin-bottom: 30px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .login-form input[type="email"],
+        .login-form input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+
+        .login-form button {
+            width: 100%;
+            padding: 12px;
+            background-color: #6a0dad;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .login-form .options {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #555;
+            margin: 10px 0;
+        }
+
+        .login-form .options a {
+            color: #6a0dad;
+            text-decoration: none;
+        }
+
+        .illustration {
+            flex: 1;
+            background-color: #e0d7f3;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .illustration img {
+            width: 80%;
+            max-width: 300px;
+        }
+
+        .login-form .description {
+            font-size: 13px;
+            color: #888;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .login-container {
+                flex-direction: column;
+                max-width: 90%;
+            }
+            .illustration {
+                 display:none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-form">
+            <h2>Welcome to Home</h2>
+            <p>Log in to gain full access</p>
+            <form method="POST">
+                <input type="email" name="email" placeholder="Email address" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <div class="options">
+                    <label><input type="checkbox"> Remember me</label>
+                    <a href="#">Forgot password?</a>
+                </div>
+                <button type="submit">Sign in</button>
+            </form>
+            <div class="description">
+                The ERP (Enterprise Resource Planning) form allows students to submit their academic, personal, and enrollment-related details efficiently. It centralizes important data for administrative access and academic processing.
+            </div>
+            <p style="font-size: 13px; margin-top: 15px;">Don't have an account? <a href="{{ url_for('register') }}">Sign up</a></p>
+        </div>
+        <div class="illustration">
+            <img src="{{ url_for('static', filename='images/user.jpeg') }}" alt="Illustration">
+        </div>
+    </div>
+</body>
+</html>

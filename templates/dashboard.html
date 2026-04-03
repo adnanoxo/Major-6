@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            color: #fff;
+        }
+        .sidebar {
+            width: 220px;
+            background: #2e2e2e;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            padding: 20px;
+        }
+        .sidebar h2 {
+            color: #fff;
+            font-size: 24px;
+        }
+        .sidebar a {
+            display: block;
+            color: #bbb;
+            text-decoration: none;
+            margin: 15px 0;
+            padding: 10px;
+            border-radius: 8px;
+        }
+        .sidebar a:hover, .sidebar .active {
+            background: #444;
+            color: #fff;
+        }
+        .main {
+            margin-left: 240px;
+            padding: 30px;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header h1 {
+            margin: 0;
+        }
+        .logout {
+            background: #ff5e5e;
+            padding: 8px 16px;
+            text-decoration: none;
+            border-radius: 5px;
+            color: white;
+        }
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .card {
+            background: #fff;
+            color: #333;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        .card h3 {
+            margin-top: 0;
+        }
+        .erp-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .erp-table th, .erp-table td {
+            padding: 12px;
+            border-bottom: 1px solid #ccc;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Home</h2>
+        <a href="#" class="active">Dashboard</a>
+        <a href="#">Account</a>
+        <a href="#">Stats</a>
+        <a href="#">Support</a>
+    </div>
+    <div class="main">
+        <div class="header">
+            <h1>Hello, {{ username }}</h1>
+            <a href="{{ url_for('logout') }}" class="logout">Logout</a>
+        </div>
+
+      <a href="{{ url_for('erp_form') }}" style="
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #2575fc;
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background 0.3s;">
+    Go to ERP Form
+</a>
+    </div>
+</body>
+</html>
