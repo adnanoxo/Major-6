@@ -73,6 +73,7 @@
         font-size: 16px;
         cursor: pointer;
         margin-top: 10px;
+        transition: 0.3s;
     }
 
     .signup {
@@ -83,7 +84,6 @@
 
     .signup a {
         color: #8DD8FF;
-        text-decoration: none;
         font-weight: bold;
     }
 
@@ -124,7 +124,7 @@
 
 <div class="container">
     <div class="logo">
-        <img src="C:\Users\aatis\Desktop\logosai.jpg" alt="University Logo">
+        <img src="images\logosai.jpg" alt="University Logo">
     </div>
 
     <h2>Sign In</h2>
@@ -135,7 +135,7 @@
     <form method="POST" action="/login">
         <div class="input-box">
             <label>Enrollment ID</label>
-            <input type="email" placeholder="Enter your enrollment ID" required>
+            <input type="text" placeholder="Enter your enrollment ID" required>
         </div>
 
         <div class="input-box">
