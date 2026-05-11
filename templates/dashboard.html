@@ -58,6 +58,12 @@
         width: 100%;
     }
 
+    .register {
+        margin-left: 250px;
+        padding: 30px;
+        width: 100%;
+    }
+
     /* DARK GLASS HEADER */
     .header {
         display: flex;
@@ -177,7 +183,8 @@
 <div class="sidebar">
     <h2>Home</h2>
     <a href="#" class="active">Dashboard</a>
-    <a href="#">Account</a>
+    <a href=student_registration.html>Student Registration</a>
+    <a href=T_register.html>Teacher Registration</a>
     <a href="#">Stats</a>
     <a href="#">Support</a>
 </div>
@@ -260,6 +267,60 @@ new Chart(ctx, {
     }
 });
 </script>
+
+<div class="register">
+
+    <div class="header">
+        <h1>Hello, {{User}}</h1>
+        <a href="index.html" class="logout">Logout</a>
+    </div>
+
+    <a href="#" class="erp-btn">Go to ERP Form</a>
+
+    <div class="card-container">
+        <div class="card">
+            <h3>Total Students</h3>
+            <p>120</p>
+        </div>
+        <div class="card">
+            <h3>Active Courses</h3>
+            <p>8</p>
+        </div>
+        <div class="card">
+            <h3>Pending Requests</h3>
+            <p>5</p>
+        </div>
+    </div>
+
+    <div class="card" style="margin-top: 30px;">
+        <h3>Student Overview</h3>
+        <canvas id="myChart"></canvas>
+    </div>
+
+    <table class="erp-table">
+        <tr>
+            <th>Name</th>
+            <th>Course</th>
+            <th>Status</th>
+        </tr>
+        <tr>
+            <td>Rahul Sharma</td>
+            <td>BCA</td>
+            <td style="color: green;">Active</td>
+        </tr>
+        <tr>
+            <td>Anjali Verma</td>
+            <td>MCA</td>
+            <td style="color: orange;">Pending</td>
+        </tr>
+        <tr>
+            <td>Amit Kumar</td>
+            <td>BBA</td>
+            <td style="color: blue;">Completed</td>
+        </tr>
+    </table>
+
+</div>
 
 </body>
 </html>
