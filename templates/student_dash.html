@@ -2,14 +2,12 @@
 <html lang="en">
 
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Student ERP Dashboard</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
@@ -43,7 +41,6 @@ body{
 .sidebar h2{
     text-align:center;
     margin-bottom:30px;
-    color:white;
 }
 
 .sidebar a{
@@ -127,11 +124,6 @@ body{
     padding:25px;
     border-radius:18px;
     box-shadow:0 6px 20px rgba(0,0,0,0.15);
-    transition:0.3s;
-}
-
-.card:hover{
-    transform:translateY(-5px);
 }
 
 .card h3{
@@ -169,53 +161,6 @@ body{
     border-bottom:1px solid #eee;
 }
 
-/* Download Button */
-
-.download-btn{
-    background:#2e2e2e;
-    color:white;
-    border:none;
-    padding:12px 20px;
-    border-radius:8px;
-    cursor:pointer;
-    font-weight:600;
-}
-
-.download-btn:hover{
-    background:#2575fc;
-}
-
-/* Profile */
-
-.profile-box{
-    display:flex;
-    gap:30px;
-    align-items:center;
-    flex-wrap:wrap;
-}
-
-.profile-img{
-    width:140px;
-    height:140px;
-    border-radius:50%;
-    background:linear-gradient(135deg,#3206fb,#42bae9);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-size:45px;
-    font-weight:bold;
-}
-
-.profile-details h2{
-    margin-bottom:15px;
-    color:#3206fb;
-}
-
-.profile-details p{
-    color:#555;
-    margin-bottom:10px;
-}
-
 /* Responsive */
 
 @media(max-width:900px){
@@ -243,7 +188,6 @@ body{
 }
 
 </style>
-
 </head>
 
 <body>
@@ -254,40 +198,21 @@ body{
 
     <h2>ERP Portal</h2>
 
-    <a onclick="showSection('dashboard',this)"
-       class="active">
-        Dashboard
+    <a href="#"
+       class="active"
+       onclick="showSection('dashboard', this)">
+       Dashboard
     </a>
 
-    <a onclick="showSection('academic',this)">
-        Academic Profile
+    <a href="result_verification.html">
+       Academic Result
     </a>
 
-    <a onclick="showSection('course',this)">
-        Course Content
+    <a href="#"
+       onclick="showSection('help', this)">
+       Help
     </a>
 
-    <a onclick="showSection('exam',this)">
-        Examination
-    </a>
-
-    <a onclick="showSection('fees',this)">
-        Fee Details
-    </a>
-
-    <a onclick="showSection('profile',this)">
-        Profile
-    </a>
-
-    <a href="#" class="active">My Dashboard</a>
-<<<<<<< HEAD
-    <a href="#">Academic Profile</a>
-=======
-    <a href="result_verification.html">Academic Result Student</a>
->>>>>>> 8b80e9093118d98e171ac9519d64ddcae7be1971
-    <a href="#">Course Content</a>
-    <a href="#">Examination</a>
-    <a href="#">Fee Details</a>
 </div>
 
 <!-- Main -->
@@ -299,7 +224,7 @@ body{
     <div class="header">
 
         <h1 id="page-title">
-            Student Dashboard
+            Welcome Back {{user}}
         </h1>
 
         <a href="index.html" class="logout">
@@ -308,475 +233,92 @@ body{
 
     </div>
 
+    <!-- Dashboard Section -->
 
-    <!-- Dashboard -->
-
-    <div id="dashboard"
-         class="section active-section">
+    <div id="dashboard" class="section active-section">
 
         <div class="card-container">
 
             <div class="card">
-
                 <h3>Attendance Rate</h3>
-
                 <p>92%</p>
-
             </div>
 
             <div class="card">
-
                 <h3>Current CGPA</h3>
-
                 <p>8.75</p>
-
             </div>
 
             <div class="card">
-
-                <h3>Dues Remaining</h3>
-
-                <p id="fee-display">₹0.00</p>
-
+                <h3>Total Subjects</h3>
+                <p>6</p>
             </div>
 
         </div>
 
         <!-- Chart -->
 
-        <div class="card"
-             style="margin-top:30px;">
+        <div class="card" style="margin-top:30px;">
 
             <h3 style="margin-bottom:20px;">
                 Semester-wise Performance
             </h3>
 
             <div style="height:250px;">
-
                 <canvas id="performanceChart"></canvas>
-
             </div>
 
         </div>
 
     </div>
 
+    <!-- Help Section -->
 
-    <!-- Academic Profile -->
-
-    <div id="academic"
-         class="section">
+    <div id="help" class="section">
 
         <div class="card">
-
-            <h2 style="color:#3206fb;">
-                Academic Information
-            </h2>
-
-            <table class="erp-table">
-
-                <tr>
-
-                    <th>Field</th>
-
-                    <th>Details</th>
-
-                </tr>
-
-                <tr>
-
-                    <td>Student Name</td>
-
-                    <td>Aatish Rana</td>
-
-                </tr>
-
-                <tr>
-
-                    <td>Course</td>
-
-                    <td>BCA</td>
-
-                </tr>
-
-                <tr>
-
-                    <td>Semester</td>
-
-                    <td>Semester 4</td>
-
-                </tr>
-
-                <tr>
-
-                    <td>Registration No</td>
-
-                    <td>BCA2024001</td>
-
-                </tr>
-
-            </table>
-
-        </div>
-
-    </div>
-
-
-    <!-- Course Content -->
-
-    <div id="course"
-         class="section">
-
-        <div class="card">
-
-            <h2 style="color:#3206fb;">
-                Current Subjects
-            </h2>
-
-            <table class="erp-table">
-
-                <tr>
-
-                    <th>Subject</th>
-
-                    <th>Faculty</th>
-
-                    <th>Status</th>
-
-                </tr>
-
-                <tr>
-
-                    <td>Database Management</td>
-
-                    <td>Mr. Kumar</td>
-
-                    <td style="color:green;font-weight:bold;">
-                        Completed
-                    </td>
-
-                </tr>
-
-                <tr>
-
-                    <td>Operating System</td>
-
-                    <td>Mrs. Singh</td>
-
-                    <td style="color:orange;font-weight:bold;">
-                        Running
-                    </td>
-
-                </tr>
-
-                <tr>
-
-                    <td>Python Programming</td>
-
-                    <td>Mr. Raj</td>
-
-                    <td style="color:green;font-weight:bold;">
-                        Completed
-                    </td>
-
-                </tr>
-
-            </table>
-
-        </div>
-
-    </div>
-
-
-    <!-- Examination -->
-
-    <div id="exam"
-         class="section">
-
-        <div class="card">
-
-            <h2 style="color:#3206fb;">
-                Subject-wise Marks
-            </h2>
-
-            <table class="erp-table">
-
-                <thead>
-
-                    <tr>
-
-                        <th>Subject</th>
-
-                        <th>Code</th>
-
-                        <th>Marks</th>
-
-                        <th>Grade</th>
-
-                    </tr>
-
-                </thead>
-
-                <tbody>
-
-                    <tr>
-
-                        <td>Database Management</td>
-
-                        <td>CS401</td>
-
-                        <td>88/100</td>
-
-                        <td style="color:green;font-weight:bold;">
-                            A
-                        </td>
-
-                    </tr>
-
-                    <tr>
-
-                        <td>Operating System</td>
-
-                        <td>CS402</td>
-
-                        <td>92/100</td>
-
-                        <td style="color:green;font-weight:bold;">
-                            A+
-                        </td>
-
-                    </tr>
-
-                    <tr>
-
-                        <td>Python</td>
-
-                        <td>CS403</td>
-
-                        <td>85/100</td>
-
-                        <td style="color:green;font-weight:bold;">
-                            A
-                        </td>
-
-                    </tr>
-
-                </tbody>
-
-            </table>
-
-        </div>
-
-
-        <!-- Download -->
-
-        <div class="card"
-             style="margin-top:30px;">
-
-            <div style="
-                display:flex;
-                justify-content:space-between;
-                align-items:center;
-                flex-wrap:wrap;
-                gap:20px;
-            ">
-
-                <div>
-
-                    <h3 style="margin-bottom:10px;">
-                        Official Report Card
-                    </h3>
-
-                    <p id="fee-status-msg"
-                       style="font-size:14px;color:#555;">
-
-                        Checking eligibility...
-
-                    </p>
-
-                </div>
-
-                <button id="download-report-btn"
-                        class="download-btn"
-                        disabled>
-
-                    🔒 Locked
-
-                </button>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- Fees -->
-
-    <div id="fees"
-         class="section">
-
-        <div class="card">
-
-            <h2 style="color:#3206fb;">
-                Fee Details
-            </h2>
-
-            <table class="erp-table">
-
-                <tr>
-
-                    <th>Fee Type</th>
-
-                    <th>Status</th>
-
-                    <th>Amount</th>
-
-                </tr>
-
-                <tr>
-
-                    <td>Tuition Fee</td>
-
-                    <td style="color:green;font-weight:bold;">
-                        Paid
-                    </td>
-
-                    <td>₹25,000</td>
-
-                </tr>
-
-                <tr>
-
-                    <td>Exam Fee</td>
-
-                    <td style="color:green;font-weight:bold;">
-                        Paid
-                    </td>
-
-                    <td>₹3,500</td>
-
-                </tr>
-
-                <tr>
-
-                    <td>Library Fee</td>
-
-                    <td style="color:green;font-weight:bold;">
-                        Paid
-                    </td>
-
-                    <td>₹2,000</td>
-
-                </tr>
-
-            </table>
-
-        </div>
-
-    </div>
-
-
-    <!-- Profile -->
-
-    <div id="profile"
-         class="section">
-
-        <div class="card">
-
-            <div class="profile-box">
-
-                <div class="profile-img">
-
-                    A
-
-                </div>
-
-                <div class="profile-details">
-
-                    <h2>
-                        Aatish Rana
-                    </h2>
-
-                    <p>
-                        Course : Bachelor of Computer Applications
-                    </p>
-
-                    <p>
-                        Email : aatish@gmail.com
-                    </p>
-
-                    <p>
-                        Phone : +91 9876543210
-                    </p>
-
-                    <p>
-                        City : Ranchi
-                    </p>
-
-                </div>
-
-            </div>
-
+            <h3>Help & Support</h3>
+            <p style="font-size:16px; color:#555; margin-top:10px;">
+                Contact your college administration for ERP related issues.
+            </p>
         </div>
 
     </div>
 
 </div>
 
-
 <script>
 
+/* Sidebar Section Change */
 
-// Sidebar Section Change
+function showSection(sectionId, element){
 
-function showSection(sectionId,element){
-
-    document.querySelectorAll('.section')
-    .forEach(section=>{
-
-        section.style.display = "none";
-
+    document.querySelectorAll('.section').forEach(section=>{
+        section.classList.remove("active-section");
     });
 
     document.getElementById(sectionId)
-    .style.display = "block";
+    .classList.add("active-section");
 
-    document.querySelectorAll('.sidebar a')
-    .forEach(link=>{
-
+    document.querySelectorAll('.sidebar a').forEach(link=>{
         link.classList.remove("active");
-
     });
 
     element.classList.add("active");
 
     const titles = {
-
         dashboard : "Student Dashboard",
-
-        academic : "Academic Profile",
-
-        course : "Course Content",
-
-        exam : "Examination",
-
-        fees : "Fee Details",
-
-        profile : "Student Profile"
-
+        help : "Help"
     };
 
-    document.getElementById("page-title")
-    .innerText = titles[sectionId];
-
+    document.getElementById("page-title").innerText =
+    titles[sectionId];
 }
 
+/* Chart */
 
-// Chart
-
-const ctx =
-document.getElementById('performanceChart')
+const ctx = document
+.getElementById('performanceChart')
 .getContext('2d');
 
 new Chart(ctx, {
@@ -784,104 +326,27 @@ new Chart(ctx, {
     type:'line',
 
     data:{
-
-        labels:[
-            'Sem 1',
-            'Sem 2',
-            'Sem 3',
-            'Sem 4'
-        ],
+        labels:['Sem 1','Sem 2','Sem 3','Sem 4'],
 
         datasets:[{
-
             label:'GPA Score',
-
-            data:[
-                7.5,
-                8.1,
-                8.3,
-                8.75
-            ],
-
+            data:[7.5,8.1,8.3,8.75],
             borderColor:'#3206fb',
-
             backgroundColor:'rgba(50,6,251,0.1)',
-
             fill:true,
-
             tension:0.4,
-
             borderWidth:3
-
         }]
-
     },
 
     options:{
-
         responsive:true,
-
         maintainAspectRatio:false
-
     }
 
 });
 
-
-// Fee Verification
-
-function verifyFeeStatus(){
-
-    const feeText =
-    document.getElementById('fee-display')
-    .innerText;
-
-    const btn =
-    document.getElementById('download-report-btn');
-
-    const msg =
-    document.getElementById('fee-status-msg');
-
-    if(feeText === "₹0.00"){
-
-        btn.innerHTML =
-        "Download Report Card";
-
-        btn.disabled = false;
-
-        msg.innerHTML =
-        "✅ Eligible for download";
-
-        msg.style.color = "green";
-
-        btn.onclick = function(){
-
-            alert("Downloading Report Card...");
-
-        };
-
-    }
-
-    else{
-
-        btn.innerHTML =
-        "🔒 Pending Fees";
-
-        btn.disabled = true;
-
-        msg.innerHTML =
-        "❌ Please clear dues first";
-
-        msg.style.color = "#ff815e";
-
-    }
-
-}
-
-window.onload = verifyFeeStatus;
-
 </script>
 
 </body>
-
 </html>
