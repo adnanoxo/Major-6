@@ -28,9 +28,10 @@
         }
 
         body{
-            background:linear-gradient(135deg,#1e3c72,#2a5298);
-            min-height:100vh;
+            background:linear-gradient(to right,#3206fb,#42bae9);
+            color:white;
             display:flex;
+            min-height:100vh;
         }
 
         /* Sidebar */
@@ -95,15 +96,16 @@
 
         .header{
             display:flex;
-            justify-content:space-between;
-            align-items:center;
-            padding:22px 28px;
-            border-radius:18px;
-            background:rgba(255,255,255,0.12);
-            backdrop-filter:blur(12px);
-            color:white;
-            margin-bottom:30px;
-            box-shadow:0 8px 20px rgba(0,0,0,0.15);
+    justify-content:space-between;
+    align-items:center;
+    padding:20px 25px;
+    background:rgba(0,0,0,0.25);
+    backdrop-filter:blur(12px);
+    border-radius:15px;
+    margin-bottom:30px;
+    position:sticky;
+    top:20px;
+    z-index:1000;
         }
 
         .header h1{
@@ -281,6 +283,7 @@
             display:flex;
             justify-content:space-between;
             align-items:center;
+            color: #1e3c72;
         }
 
         .badge{
@@ -474,34 +477,18 @@
 
                     <select id="semester"
                             onchange="generateTable()">
-
+                      
                         <option value="">
                             Select Semester
                         </option>
 
-                        <option value="sem1">
-                            Semester 1
-                        </option>
-
-                        <option value="sem2">
-                            Semester 2
-                        </option>
-
-                        <option value="sem3">
-                            Semester 3
-                        </option>
-
-                        <option value="sem4">
-                            Semester 4
-                        </option>
+                         
 
                         <option value="sem5">
                             Semester 5
                         </option>
 
-                        <option value="sem6">
-                            Semester 6
-                        </option>
+                        
 
                     </select>
 
@@ -713,10 +700,11 @@
         ],
 
         sem5:[
-            "Machine Learning",
-            "Data Science",
-            "Android",
-            "Compiler Design"
+            "AI/ML",
+            "Python",
+            "DBMS",
+            "English",
+            "Math"
         ],
 
         sem6:[
