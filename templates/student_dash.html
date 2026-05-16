@@ -2,225 +2,6 @@
 <html lang="en">
 
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Student ERP Dashboard</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<style>
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Inter',sans-serif;
-}
-
-body{
-    background:linear-gradient(to right,#3206fb,#42bae9);
-    color:white;
-    display:flex;
-    min-height:100vh;
-}
-
-/* Sidebar */
-
-.sidebar{
-    width:240px;
-    height:100vh;
-    background:#2e2e2e;
-    padding:20px;
-    position:fixed;
-    left:0;
-    top:0;
-}
-
-.sidebar h2{
-    text-align:center;
-    margin-bottom:30px;
-}
-
-.sidebar a{
-    display:block;
-    color:#fddf02;
-    text-decoration:none;
-    margin:12px 0;
-    padding:14px;
-    border-radius:10px;
-    transition:0.3s;
-    cursor:pointer;
-    font-weight:600;
-}
-
-.sidebar a:hover,
-.sidebar a.active{
-    background:#f4c404;
-    color:white;
-    transform:translateX(5px);
-    box-shadow:0 0 18px rgba(253,223,2,0.4);
-}
-
-/* Main */
-
-.main{
-    margin-left:270px;
-    padding:30px;
-    width:calc(100% - 270px);
-}
-
-/* Header */
-
-.header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:20px 25px;
-    background:rgba(0,0,0,0.25);
-    backdrop-filter:blur(12px);
-    border-radius:15px;
-    margin-bottom:30px;
-    position:sticky;
-    top:20px;
-    z-index:1000;
-}
-
-.header h1{
-    font-size:28px;
-}
-
-.logout{
-    background:#ff815e;
-    padding:10px 18px;
-    border-radius:8px;
-    text-decoration:none;
-    color:white;
-    font-weight:600;
-}
-
-/* Sections */
-
-.section{
-    display:none;
-}
-
-.active-section{
-    display:block;
-}
-
-/* Cards */
-
-.card-container{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:20px;
-}
-
-.card{
-    background:white;
-    color:#333;
-    padding:25px;
-    border-radius:18px;
-    box-shadow:0 6px 20px rgba(0,0,0,0.15);
-}
-
-.card h3{
-    color:#666;
-    margin-bottom:10px;
-}
-
-.card p{
-    font-size:28px;
-    font-weight:bold;
-    color:#3206fb;
-}
-
-/* Table */
-
-.erp-table{
-    width:100%;
-    margin-top:20px;
-    border-collapse:collapse;
-    background:white;
-    color:#333;
-    border-radius:14px;
-    overflow:hidden;
-}
-
-.erp-table th{
-    background:#f4c404;
-    color:black;
-    padding:15px;
-    text-align:left;
-}
-
-.erp-table td{
-    padding:15px;
-    border-bottom:1px solid #eee;
-}
-
-/* Profile */
-
-.profile-box{
-    display:flex;
-    gap:30px;
-    align-items:center;
-    flex-wrap:wrap;
-}
-
-.profile-img{
-    width:140px;
-    height:140px;
-    border-radius:50%;
-    background:linear-gradient(135deg,#3206fb,#42bae9);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-size:45px;
-    font-weight:bold;
-}
-
-.profile-details h2{
-    margin-bottom:15px;
-    color:#3206fb;
-}
-
-.profile-details p{
-    color:#555;
-    margin-bottom:10px;
-}
-
-/* Responsive */
-
-@media(max-width:900px){
-
-    body{
-        flex-direction:column;
-    }
-
-    .sidebar{
-        position:relative;
-        width:100%;
-        height:auto;
-    }
-
-    .main{
-        margin-left:0;
-        width:100%;
-    }
-
-    .erp-table{
-        display:block;
-        overflow-x:auto;
-    }
-
-}
-
-</style>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student ERP Dashboard</title>
@@ -228,7 +9,6 @@ body{
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
-        /* [CORE STYLING] */
         * {
             margin: 0;
             padding: 0;
@@ -271,7 +51,8 @@ body{
             font-weight: 600;
         }
 
-        .sidebar a:hover, .sidebar a.active {
+        .sidebar a:hover,
+        .sidebar a.active {
             background: #f4c404;
             color: white;
             transform: translateX(5px);
@@ -287,6 +68,7 @@ body{
             flex-direction: column;
         }
 
+        /* Header */
         .header {
             display: flex;
             justify-content: space-between;
@@ -301,7 +83,9 @@ body{
             z-index: 1000;
         }
 
-        .header h1 { font-size: 28px; }
+        .header h1 {
+            font-size: 28px;
+        }
 
         .logout {
             background: #ff815e;
@@ -312,13 +96,62 @@ body{
             font-weight: 600;
         }
 
-        /* Section Handling */
+        /* Sections */
         .section {
             display: none;
         }
 
         .active-section {
             display: block;
+        }
+
+        /* Cards */
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            color: #333;
+            padding: 25px;
+            border-radius: 18px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .card h3 {
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            font-size: 28px;
+            font-weight: bold;
+            color: #3206fb;
+        }
+
+        /* Table */
+        .erp-table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+            background: white;
+            color: #333;
+            border-radius: 14px;
+            overflow: hidden;
+        }
+
+        .erp-table th {
+            background: #f4c404;
+            color: black;
+            padding: 15px;
+            text-align: left;
+        }
+
+        .erp-table td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
         }
 
         /* Iframe Styling */
@@ -336,96 +169,45 @@ body{
             border: none;
         }
 
-        /* Dashboard Cards & Table */
-        .card-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
-        }
-
-        .card {
-            background: white;
-            color: #333;
-            padding: 25px;
-            border-radius: 18px;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-        }
-
-        .card h3 { color: #666; margin-bottom: 10px; }
-        .card p { font-size: 28px; font-weight: bold; color: #3206fb; }
-
+        /* Responsive Design */
         @media(max-width:900px){
-            body { flex-direction: column; }
-            .sidebar { position: relative; width: 100%; height: auto; }
-            .main { margin-left: 0; width: 100%; }
+            body {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+            }
+
+            .main {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .erp-table {
+                display: block;
+                overflow-x: auto;
+            }
         }
     </style>
-
 </head>
 
 <body>
 
-
-<!-- Sidebar -->
-
-<div class="sidebar">
-
-    <h2>ERP Portal</h2>
-
-    <a href="#"
-       class="active"
-       onclick="showSection('dashboard', this)">
-       Dashboard
-    </a>
-
-    <a href="{{ url_for('result') }}" target="_self">
-    Academic Result
-</a>
-
-    <a onclick="showSection('profile',this)">
-        Profile
-    </a>
-
-    <a onclick="showSection('help',this)">
-        Help
-    </a>
-
-</div>
-
-<!-- Main -->
-
-<div class="main">
-
-    <!-- Header -->
-
-    <div class="header">
-
-        <h1 id="page-title">
-            Welcome Back {{user}}
-        </h1>
-
-        <a href="{{ url_for('logout') }}"
-           class="logout">
-
-            Logout
-
-        </a>
-
-
-    <!-- Sidebar -->
+    <!-- Sidebar with exactly 3 navigation paths -->
     <div class="sidebar">
         <h2>ERP Portal</h2>
         <a href="#" class="active" onclick="showSection('dashboard', this)">Dashboard</a>
-        
-        <!-- This triggers the external file into the iframe -->
         <a href="result_verification.html" target="content-frame" onclick="showIframeSection(this)">Academic Result</a>
-        
         <a href="#" onclick="showSection('help', this)">Help</a>
-
     </div>
 
-    <!-- Main -->
+    <!-- Main Content Window -->
     <div class="main">
+        
+        <!-- Header Section -->
         <div class="header">
             <h1 id="page-title">Welcome Back Student</h1>
             <a href="index.html" class="logout">Logout</a>
@@ -438,21 +220,13 @@ body{
                 <div class="card"><h3>Current CGPA</h3><p>8.75</p></div>
                 <div class="card"><h3>Total Subjects</h3><p>6</p></div>
             </div>
+            
             <div class="card" style="margin-top:30px;">
                 <h3 style="margin-bottom:20px;">Semester-wise Performance</h3>
-                <div style="height:250px;"><canvas id="performanceChart"></canvas></div>
+                <div style="height:250px;">
+                    <canvas id="performanceChart"></canvas>
+                </div>
             </div>
-
-
-            <div class="card">
-
-                <h3>Semester</h3>
-
-                <p>4</p>
-
-            </div>
-
-
         </div>
 
         <!-- External Content Section (Iframe) -->
@@ -460,254 +234,20 @@ body{
             <iframe name="content-frame"></iframe>
         </div>
 
-
-    </div>
-
-    <!-- Help Section -->
-
-    <!-- Academic -->
-
-    <div id="academic"
-         class="section">
-
-        <div class="card">
-
-            <h2 style="color:#3206fb;">
-                Academic Information
-            </h2>
-
-            <table class="erp-table">
-
-                <tr>
-
-                    <th>Field</th>
-
-                    <th>Details</th>
-
-                </tr>
-
-                <tr>
-
-                    <td>Student Name</td>
-
-                    <td>{{ student.name }}</td>
-
-                </tr>
-
-                <tr>
-
-                    <td>Course</td>
-
-                    <td>{{ student.course }}</td>
-
-                </tr>
-
-                <tr>
-
-                    <td>Email</td>
-
-                    <td>{{ student.email }}</td>
-
-                </tr>
-
-                <tr>
-
-                    <td>Enrollment</td>
-
-                    <td>{{ student.enrollment }}</td>
-
-                </tr>
-
-            </table>
-
-        </div>
-
-    </div>
-
-
-    <!-- Profile -->
-
-    <div id="profile"
-         class="section">
-
-        <div class="card">
-
-            <div class="profile-box">
-
-                <div class="profile-img">
-
-                    {{ student.name[0] }}
-
-                </div>
-
-                <div class="profile-details">
-
-                    <h2>
-                        {{ student.name }}
-                    </h2>
-
-                    <p>
-                        Course : {{ student.course }}
-                    </p>
-
-                    <p>
-                        Email : {{ student.email }}
-                    </p>
-
-                    <p>
-                        Enrollment : {{ student.enrollment }}
-                    </p>
-
-                    <p>
-                        Role : {{ student.role }}
-                    </p>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- Help -->
-
-    <div id="help"
-         class="section">
-
-        <div class="card">
-
-            <h2 style="color:#3206fb;">
-                Help & Support
-            </h2>
-
-            <table class="erp-table">
-
-                <tr>
-
-                    <th>Department</th>
-
-                    <th>Contact</th>
-
-                </tr>
-
-                <tr>
-
-                    <td>Technical Support</td>
-
-                    <td>support@erp.com</td>
-
-                </tr>
-
-                <tr>
-
-                    <td>Accounts Section</td>
-
-                    <td>accounts@erp.com</td>
-
-                </tr>
-
-                <tr>
-
-                    <td>Administration</td>
-
-                    <td>admin@erp.com</td>
-
-                </tr>
-
-            </table>
-
-
         <!-- Help Section -->
-        <div id="help" class="section">
-            <div class="card">
-                <h3>Help & Support</h3>
-                <p style="font-size:16px; color:#555; margin-top:10px;">
-                    Contact your college administration for ERP related issues.
-                </p>
-            </div>
-
-        </div>
+<div id="help" class="section">
+    <div class="card" style="background: rgba(0, 0, 0, 0.25); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1);">
+        <h3 style="color: #fddf02;">Help & Support</h3>
+        <p style="font-size: 16px; color: #fff; margin-top: 10px; opacity: 0.9;">
+            Contact your college administration for ERP related issues.
+        </p>
     </div>
-
-
 </div>
 
-<script>
-
-// Sidebar Section Change
-
-function showSection(sectionId,element){
-
-    document.querySelectorAll('.section')
-    .forEach(section=>{
-
-        section.style.display = "none";
-
-    document.querySelectorAll('.section').forEach(section=>{
-        section.classList.remove("active-section");
-    });
-
-    document.getElementById(sectionId)
-    .classList.add("active-section");
-
-    document.querySelectorAll('.sidebar a').forEach(link=>{
-        link.classList.remove("active");
-    });
-
-    element.classList.add("active");
-
-    const titles = {
-        dashboard : "Student Dashboard",
-
-        academic : "Academic Result",
-
-        profile : "Student Profile",
-
-        help : "Help & Support"
-
-    };
-
-    document.getElementById("page-title").innerText =
-    titles[sectionId];
-}
-
-/* Chart */
-const ctx = document
-.getElementById('performanceChart')
-.getContext('2d');
-
-new Chart(ctx, {
-
-    type:'line',
-
-    data:{
-        labels:['Sem 1','Sem 2','Sem 3','Sem 4'],
-
-        datasets:[{
-            label:'GPA Score',
-            data:[7.5,8.1,8.3,8.75],
-            borderColor:'#3206fb',
-            backgroundColor:'rgba(50,6,251,0.1)',
-            fill:true,
-            tension:0.4,
-            borderWidth:3
-        }]
-    },
-
-    options:{
-        responsive:true,
-        maintainAspectRatio:false
-    }
-
-});
-
-</script>
-
+    </div>
 
     <script>
-        // Function for standard internal sections (Dashboard/Help)
+        // Function for standard internal template views (Dashboard / Help)
         function showSection(sectionId, element) {
             document.querySelectorAll('.section').forEach(s => s.classList.remove("active-section"));
             document.getElementById(sectionId).classList.add("active-section");
@@ -715,11 +255,14 @@ new Chart(ctx, {
             document.querySelectorAll('.sidebar a').forEach(link => link.classList.remove("active"));
             element.classList.add("active");
 
-            const titles = { dashboard: "Student Dashboard", help: "Help & Support" };
+            const titles = { 
+                dashboard: "Student Dashboard", 
+                help: "Help & Support" 
+            };
             document.getElementById("page-title").innerText = titles[sectionId];
         }
 
-        // Function specifically for loading the external Academic Result file
+        // Function tailored for handling dynamic iframe context routing
         function showIframeSection(element) {
             document.querySelectorAll('.section').forEach(s => s.classList.remove("active-section"));
             document.getElementById('iframe-container').classList.add("active-section");
@@ -730,7 +273,7 @@ new Chart(ctx, {
             document.getElementById("page-title").innerText = "Academic Results";
         }
 
-        /* Performance Chart */
+        /* Performance Chart Setup */
         const ctx = document.getElementById('performanceChart').getContext('2d');
         new Chart(ctx, {
             type: 'line',
@@ -746,7 +289,10 @@ new Chart(ctx, {
                     borderWidth: 3
                 }]
             },
-            options: { responsive: true, maintainAspectRatio: false }
+            options: { 
+                responsive: true, 
+                maintainAspectRatio: false 
+            }
         });
     </script>
 
