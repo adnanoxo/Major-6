@@ -14,8 +14,8 @@ os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 db_config = {
     'host': 'localhost',
     'user': 'root',
-    'password': 'root',
-    'database': 'erpdata'
+    'password': '0044',
+    'database': '<D_database>'
 }
 
 # ------------------- Home -------------------
