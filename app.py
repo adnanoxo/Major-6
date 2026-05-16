@@ -1,149 +1,234 @@
-from flask import Flask, request, render_template, redirect, url_for, session
+from flask import Flask, render_template, request, url_for, session, redirect
 from werkzeug.security import generate_password_hash, check_password_hash
 import mysql.connector
-import os
-
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'  # Use a strong secret in production
-
-# Upload folder setup
-app.config['UPLOAD_FOLDER'] = 'uploads/'
-os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
-
+app.secret_key = "aatish_secret_key"
+ 
 # MySQL DB config
-db_config = {
-    'host': 'localhost',
-    'user': 'root',
-    'password': '0044',
-    'database': '<D_database>'
-}
-
-# ------------------- Home -------------------
+db = mysql.connector.connect(
+    host='localhost',
+    user='root',
+    password='aatish2004',
+    database='major6',
+    port = '3305'
+)
+#---------------College Dashboard-----------------
 @app.route('/')
 def home():
-    return redirect(url_for('login'))
+    return render_template('index.html')
 
-# ------------------- Register -------------------
-@app.route('/register', methods=['GET', 'POST'])
-def register():
-    if request.method == 'POST':
-        username = request.form['username']
-        email = request.form['email']
-        password = generate_password_hash(request.form['password'])
+#--------------student login page---------------------
+@app.route('/studentlogin')
+def stdlogin():
+    return render_template('StudentLogin.html')
+#-------------Teacher Login page---------------------
+@app.route('/teacherlogin')
+def thrlogin():
+    return render_template('facultyLogin.html')
 
-        conn = mysql.connector.connect(**db_config)
-        cursor = conn.cursor()
-        cursor.execute("INSERT INTO users (username, email, password) VALUES (%s, %s, %s)", 
-                       (username, email, password))
-        conn.commit()
-        cursor.close()
-        conn.close()
-        return redirect(url_for('login'))
-    return render_template('register.html')
-
-# ------------------- Login -------------------
-@app.route('/login', methods=['GET', 'POST'])
+#-------------Admin Login Page
+@app.route('/adminlogin')
+def admlogin():
+    return render_template('AdminLogin.html')
+#-------------password check---------
+@app.route('/login', methods=['POST'])
 def login():
-    if request.method == 'POST':
-        email = request.form['email']
-        password = request.form['password']
 
-        conn = mysql.connector.connect(**db_config)
-        cursor = conn.cursor(dictionary=True)
-        cursor.execute("SELECT * FROM users WHERE email = %s", (email,))
-        user = cursor.fetchone()
-        cursor.close()
-        conn.close()
+    enrollment = request.form.get('enrollment')
+    password = request.form.get('password')
 
-        if user and check_password_hash(user['password'], password):
-            session['user_id'] = user['id']
-            session['username'] = user['username']
-            return redirect(url_for('dashboard'))
+    cursor = db.cursor(dictionary=True)
+
+    sql = """
+    SELECT * FROM registration
+    WHERE enrollment = %s
+    """
+
+    cursor.execute(sql, (enrollment,))
+
+    user = cursor.fetchone()
+
+    if user:
+
+        # Match hashed password
+        if check_password_hash(
+                user['password'],
+                password
+        ):
+            role = user['role']
+            # Get role from database
+            session['enrollment'] = user['enrollment']
+            session['role'] = user['role']
+            session['name'] = user['name']
+            # Redirect according to role
+            if role == "student":
+                  return redirect(url_for('stdash'))
+
+            elif role == "teacher":
+                return redirect(url_for('thdash'))
+                
+            elif role == "admin":
+                return redirect(url_for('adash'))
+            else:
+                return "Invalid Role"
+
         else:
-            return "Invalid credentials"
-    return render_template('login.html')
+            return "Wrong Password"
 
-# ------------------- Dashboard -------------------
-@app.route('/dashboard')
-def dashboard():
-    if 'user_id' not in session:
-        return redirect(url_for('login'))
-    return render_template('dashboard.html', username=session['username'])
+    else:
+        return "User Not Found"
 
-# ------------------- ERP Form -------------------
-@app.route('/erp_form', methods=['GET', 'POST'])
-def erp_form():
-    if 'user_id' not in session:
-        return redirect(url_for('login'))
+#-----------student registration page---------------
 
-    if request.method == 'POST':
-        # Save uploaded files
-        photo = request.files['photo']
-        cast_cer = request.files['cast_cer']
-        res_cer = request.files['res_cer']
-        incm_cer = request.files['incm_cer']
+@app.route('/sreg')
+def sdr():
+    return render_template('student_registration.html')
 
-        photo_path = os.path.join(app.config['UPLOAD_FOLDER'], photo.filename)
-        cast_path = os.path.join(app.config['UPLOAD_FOLDER'], cast_cer.filename)
-        res_path = os.path.join(app.config['UPLOAD_FOLDER'], res_cer.filename)
-        incm_path = os.path.join(app.config['UPLOAD_FOLDER'], incm_cer.filename)
+#-------------Student Registration----------------
+@app.route('/sregister', methods=['POST'])
+def sregisters():
+    enrollment = request.form.get('enrollment')
+    name = request.form.get('name')
+    email = request.form.get('email')
+    password =generate_password_hash(
+        request.form.get('password')
+    )
+    course = request.form.get('course')
+    role = "student"
+  
+    cursor =db.cursor()
+    sql_query="INSERT INTO registration (enrollment, name, email, password,role, course) VALUES (%s, %s,%s, %s,%s,%s)"
+    cursor.execute(sql_query,(enrollment,name,email,password,role,course))
+    db.commit()
+    return redirect(url_for('stdlogin'))
 
-        photo.save(photo_path)
-        cast_cer.save(cast_path)
-        res_cer.save(res_path)
-        incm_cer.save(incm_path)
+#-----------------Teacher Registration-----------------------
+@app.route('/treg')
+def thr():
+    return render_template('T_register.html')
 
-        # Get form data
-        data = (
-            photo_path,
-            request.form.get('Fname'),
-            request.form.get('Mname'),
-            request.form.get('Lname'),
-            request.form.get('Ftname'),
-            request.form.get('Occupation'),
-            request.form.get('Mtname'),
-            request.form.get('Occ'),
-            request.form.get('DOB'),
-            request.form.get('Gender'),
-            request.form.get('qualification'),
-            request.form.get('Cat'),
-            request.form.get('inc'),
-            request.form.get('Rlg'),
-            request.form.get('PhNo'),
-            request.form.get('emailUser') + '@gmail.com',
-            request.form.get('P.code'),
-            request.form.get('Add'),
-            request.form.get('P.add'),
-            cast_path,
-            res_path,
-            incm_path
-        )
+@app.route('/tregister', methods=['POST'])
+def tregisters():
+    enrollment = request.form.get('enrollment')
+    name = request.form.get('name')
+    email = request.form.get('email')
+    password =generate_password_hash(
+        request.form.get('password')
+    )
+    course = request.form.get('course')
+    role = "teacher"
+  
+    cursor =db.cursor()
+    sql_query="INSERT INTO registration (enrollment, name, email, password,role, course) VALUES (%s, %s,%s, %s,%s,%s)"
+    cursor.execute(sql_query,(enrollment,name,email,password,role,course))
+    db.commit()
+    return redirect(url_for('thrlogin'))
+#-----------------student dashboqrd----------------
+@app.route('/studentdashboard')
+def stdash():
+    enrollment = session.get('enrollment')
+    cursor = db.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM registration WHERE enrollment=%s", (enrollment,)
+                   )
+    student =  cursor.fetchone()
+    return render_template('student_dash.html', student = student)
 
-        conn = mysql.connector.connect(**db_config)
-        cursor = conn.cursor()
-        cursor.execute('''
-            INSERT INTO erp_data (
-                photo, fname, mname, lname, father_name, father_occupation,
-                mother_name, mother_occupation, dob, gender, qualification,
-                category, income, religion, phone, email, pincode,
-                address, permanent_address, caste_certificate,
-                residence_certificate, income_certificate
-            ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-        ''', data)
-        conn.commit()
-        cursor.close()
-        conn.close()
+#-----------------teacher dashboard--------------
+@app.route('/teacherdashboard')
+def thdash():
+    return render_template('teacher_dash.html')
 
-        return render_template("success.html")
-
-    return render_template('erp_form.html')
-
-# ------------------- Logout -------------------
+#-----------Admin Dashboard--------------
+@app.route('/admindashboard')
+def adash():
+    return render_template('dashboard.html')
+ 
+#-------------------Logout------------------
 @app.route('/logout')
 def logout():
     session.clear()
-    return redirect(url_for('login'))
+    return redirect(url_for('home'))
 
-# ------------------- Run App -------------------
+#---------------result upload-------------
+@app.route('/uploadmarks', methods=['POST'])
+def uploadmarks():
+
+    enrollment = request.form.get('enrollment')
+    batch = request.form.get('batch')
+    semester = request.form.get('semester')
+
+    subject = request.form.getlist('subject[]')
+    marks = request.form.getlist('marks[]')
+
+    cursor = db.cursor()
+
+    for sub, marks in zip(subject, marks):
+
+        sql = """
+        INSERT INTO result (enrollment, batch, semester, subject, marks)
+        VALUES (%s, %s, %s, %s, %s)
+        """
+
+        cursor.execute(sql, (enrollment, batch, semester, sub, marks))
+
+    db.commit()
+
+    return redirect(url_for('thdash'))
+#---------------view results-------------------
+@app.route('/rlogin', methods=['POST'])
+def rlogin():
+
+    enrollment = request.form.get('enrollment')
+    password = request.form.get('password')
+
+    cursor = db.cursor(dictionary=True)
+
+    sql = """
+    select registration.enrollment, registration.name,
+      result.semester from registration inner join 
+        result on registration.enrollment = result.enrollment 
+        where registration.enrollment = '%s';
+    """
+    print
+    cursor.execute(sql, (enrollment,))
+
+    ruser = cursor.fetchall()
+    print(ruser)
+    if ruser:
+
+        # Match hashed password
+        if check_password_hash(
+                ruser['password'],
+                password
+        ):
+            role = ruser['role']
+            # Get role from database
+            session['enrollment'] = ruser['enrollment']
+            session['role'] = ruser['role']
+            session['name'] = ruser['name']
+            # Redirect according to role
+            if role == "student":
+                  return redirect(url_for('marksheet'))
+
+            else:
+                return "Invalid Role"
+
+        else:
+            return "Wrong Password"
+
+    else:
+        return "User Not Found"
+    
+
+#--------------marksheet----------
+@app.route('/marksheet')
+def marksheet():
+    return render_template('marksheet.html')
+
+@app.route('/resultlogin')
+def result():
+    return render_template('result_verification.html')
+    
+#--------run app-------------   
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=5050)
