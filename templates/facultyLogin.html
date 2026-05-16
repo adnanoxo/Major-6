@@ -141,7 +141,7 @@ h2 {
 
 <div class="container">
     <div class="logo">
-        <img src="images\logosai.jpg">
+        <img src="{{ url_for ('static', filename='images/logosai.jpg')}}" >
     </div>
 
     <h2>Sign In (Faculty)</h2>
@@ -150,20 +150,21 @@ h2 {
         * ID and Password are provided by Admin or sent to your registered email.
     </p>
 
-    <form>
+    <form action="{{ url_for('login')}}" method="POST">
         <div class="input-box">
             <label>Enrollment ID</label>
-            <input type="text" placeholder="Enter your Enrollment ID">
+            <input type="text" name="enrollment" placeholder="Enter your Enrollment ID">
         </div>
 
         <div class="input-box">
             <label>Password</label>
-            <input type="password" placeholder="Enter password">
+            <input type="password"name="password" placeholder="Enter password">
         </div>
 
-        
+        <button type="submit" class="btn">
+        Login
     </form>
-    <a href="teacher_dash.html"><button class="btn">Login</button></a>
+     
 
      
 </div>

@@ -217,18 +217,23 @@
             border-collapse:collapse;
             overflow:hidden;
             border-radius:16px;
+            table-layout: fixed;
         }
 
         table th{
             background:#1e3c72;
             color:white;
             padding:15px;
+            word-wrap: break-word;
+            overflow: hidden;
         }
 
         table td{
             padding:12px;
             text-align:center;
             border-bottom:1px solid #eee;
+            word-wrap: break-word;
+            overflow: hidden;
         }
 
         table tr:nth-child(even){
@@ -237,20 +242,17 @@
 
         .manual-input,
         .marks-input{
-            padding:9px;
-            border:none;
-            border-radius:8px;
-            background:#eef3ff;
-            outline:none;
-            text-align:center;
+            width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
         }
 
         .manual-input{
-            width:140px;
+            width:50px;
         }
 
         .marks-input{
-            width:70px;
+            width:50px;
         }
 
         .manual-input:focus,
@@ -399,7 +401,7 @@
                 Teacher Dashboard
             </h1>
 
-            <a href="index.html" class="logout">
+            <a href="{{ url_for('logout') }}" class="logout">
                 Logout
             </a>
 
@@ -482,13 +484,29 @@
                             Select Semester
                         </option>
 
-                         
+                        <option value="1">
+                            Semester 1
+                        </option>
 
-                        <option value="sem5">
+                        <option value="2">
+                            Semester 2
+                        </option>
+
+                        <option value="3">
+                            Semester 3
+                        </option>
+
+                        <option value="4">
+                            Semester 4
+                        </option>
+
+                        <option value="5">
                             Semester 5
                         </option>
 
-                        
+                        <option value="6">
+                            Semester 6
+                        </option>
 
                     </select>
 
@@ -589,29 +607,27 @@
                 <div class="profile-box">
 
                     <div class="profile-img">
-                        T
+                        {{ teacher.name[0] }}
                     </div>
 
                     <div class="profile-details">
 
                         <h3>
-                            Teacher Name
+                            {{ teacher.name }}
                         </h3>
 
                         <p>
-                            Department : Computer Applications
+                            Department : {{ teacher.course }}
+                        </p>
+
+                         
+
+                        <p>
+                            Email :  {{ teacher.email }}
                         </p>
 
                         <p>
-                            Experience : 5 Years
-                        </p>
-
-                        <p>
-                            Email : teacher@gmail.com
-                        </p>
-
-                        <p>
-                            Phone : +91 9876543210
+                            Role : {{ teacher.role }}
                         </p>
 
                     </div>
@@ -671,43 +687,42 @@
 
     const semesterSubjects = {
 
-        sem1:[
-            "C Programming",
+        1:[
+            "C Programming" ,
             "Mathematics",
             "English",
             "Computer Fundamentals"
         ],
 
-        sem2:[
+        2:[
             "C++",
             "Data Structure",
             "DBMS",
             "Web Designing"
         ],
 
-        sem3:[
+        3:[
             "Java",
             "Operating System",
             "Python",
             "Computer Network"
         ],
 
-        sem4:[
+        4:[
             "Software Engineering",
             "Cloud Computing",
             "AI",
             "Cyber Security"
         ],
 
-        sem5:[
-            "AI/ML",
-            "Python",
-            "DBMS",
-            "English",
-            "Math"
+        5:[
+            "Machine Learning",
+            "Data Science",
+            "Android",
+            "Compiler Design"
         ],
 
-        sem6:[
+        6:[
             "Project",
             "Internship",
             "Viva",
@@ -719,38 +734,71 @@
 
     // Generate Table
 
-    function generateTable(){
+    function generateTable() {
 
-        const semester =
-        document.getElementById("semester").value;
+    const semester = document.getElementById("semester").value;
+    const subjects = semesterSubjects[semester];
 
-        const subjectList =
-        document.getElementById("subjectList");
+    const subjectList = document.getElementById("subjectList");
+    const tableContainer = document.getElementById("tableContainer");
 
-        const tableContainer =
-        document.getElementById("tableContainer");
+    subjectList.innerHTML = "";
+    tableContainer.innerHTML = "";
 
-        const subjects =
-        semesterSubjects[semester];
+    if (!subjects) return;
 
-        subjectList.innerHTML = "";
+    subjects.forEach(sub => {
+        subjectList.innerHTML += `<div class="subject-tag">${sub}</div>`;
+    });
 
-        tableContainer.innerHTML = "";
+    let form = `
+    <form method="POST" action="/uploadmarks">
 
-        if(!subjects) return;
+        <input type="hidden" name="semester" value="${semester}">
 
+        <table>
+            <tr>
+                <th>Enrollment</th>
+                <th>Name</th>
+    `;
 
-        // Subject Tags
+    subjects.forEach(sub => {
+        form += `<th>${sub}</th>`;
+    });
 
-        subjects.forEach(subject=>{
+    form += `<th>Action</th></tr><tr>
 
-            subjectList.innerHTML +=
-            `<div class="subject-tag">
-                ${subject}
-            </div>`;
+        <td>
+            <input type="text" name="enrollment" required>
+        </td>
 
-        });
+        <td>
+            <input type="text" name="batch" required>
+        </td>
+    `;
 
+    // 🔥 IMPORTANT PART (subject + marks pairing)
+    subjects.forEach(sub => {
+        form += `
+            <td>
+                <input type="hidden" name="subject[]" value="${sub}">
+                <input type="number" name="marks[]" required>
+            </td>
+        `;
+    });
+
+    form += `
+        <td>
+            <button type="submit" class="row-submit">Submit</button>
+        </td>
+
+        </tr>
+        </table>
+    </form>
+    `;
+
+    tableContainer.innerHTML = form;
+}
 
         // Table Start
 
@@ -839,7 +887,6 @@
 
         tableContainer.innerHTML = table;
 
-    }
 
 
     // Submit Marks

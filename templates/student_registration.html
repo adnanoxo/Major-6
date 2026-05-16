@@ -151,9 +151,9 @@
 
 <div class="sidebar">
     <h2>ERP Portal</h2>
-    <a href="dashboard.html">Dashboard</a>
+    <a href="{{ url_for ('adash')}}">Dashboard</a>
     <a href="#" class="active">Student Registration</a>
-    <a href=T_register.html>Teacher Registration</a>
+    <a href="{{ url_for ('thr')}}">Teacher Registration</a>
     <a href="#">Stats</a>
     <a href="#">Support</a>
 </div>
@@ -162,21 +162,21 @@
 
     <div class="header">
         <h1>Registration Desk</h1>
-        <a href="index.html" class="logout">Logout</a>
+        <a href="{{url_for('logout')}}" class="logout">Logout</a>
     </div>
 
     <!-- Student Registration Form -->
     <div class="form-card">
         <h2>Student Registration</h2>
-        <form action="/submit_student" method="POST" onsubmit="return handleSubmission()">
+        <form action="{{ url_for ('sregisters')}}" method="POST" onsubmit="return handleSubmission()">
             <div class="grid-form">
                 <div class="form-group">
                     <label>Full Name</label>
-                    <input type="text" name="student_name" placeholder="Enter student name" required>
+                    <input type="text" name="name" placeholder="Enter student name" required>
                 </div>
                 <div class="form-group">
                     <label>Enrollment Number</label>
-                    <input type="text" name="enroll_no" placeholder="ERP-2026-001" required>
+                    <input type="text" name="enrollment" placeholder="ERP-2026-001" required>
                 </div>
                 <div class="form-group">
                     <label>Course</label>
@@ -232,7 +232,7 @@ function handleSubmission() {
 
     // 3. Return false temporarily to see the popup
     // Change this to 'true' once you connect your Flask/MySQL backend!
-    return false; 
+    return true; 
 }
 
 function closeModal() {
