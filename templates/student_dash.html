@@ -169,22 +169,6 @@ body{
     border-bottom:1px solid #eee;
 }
 
-/* Download Button */
-
-.download-btn{
-    background:#2e2e2e;
-    color:white;
-    border:none;
-    padding:12px 20px;
-    border-radius:8px;
-    cursor:pointer;
-    font-weight:600;
-}
-
-.download-btn:hover{
-    background:#2575fc;
-}
-
 /* Profile */
 
 .profile-box{
@@ -259,31 +243,18 @@ body{
         Dashboard
     </a>
 
-    <a onclick="showSection('academic',this)">
-        Academic Profile
-    </a>
-
-    <a onclick="showSection('course',this)">
-        Course Content
-    </a>
-
-    <a onclick="showSection('exam',this)">
-        Examination
-    </a>
-
-    <a onclick="showSection('fees',this)">
-        Fee Details
-    </a>
+    <a href="{{ url_for('result') }}" target="_self">
+    Academic Result
+</a>
 
     <a onclick="showSection('profile',this)">
         Profile
     </a>
 
-    <a href="#" class="active">My Dashboard</a>
-    <a href="result_verification.html">Academic Result Student</a>
-    <a href="#">Course Content</a>
-    <a href="#">Examination</a>
-    <a href="#">Fee Details</a>
+    <a onclick="showSection('help',this)">
+        Help
+    </a>
+
 </div>
 
 <!-- Main -->
@@ -298,8 +269,11 @@ body{
             Student Dashboard
         </h1>
 
-        <a href="index.html" class="logout">
+        <a href="{{ url_for('logout') }}"
+           class="logout">
+
             Logout
+
         </a>
 
     </div>
@@ -330,9 +304,9 @@ body{
 
             <div class="card">
 
-                <h3>Dues Remaining</h3>
+                <h3>Semester</h3>
 
-                <p id="fee-display">₹0.00</p>
+                <p>4</p>
 
             </div>
 
@@ -358,7 +332,7 @@ body{
     </div>
 
 
-    <!-- Academic Profile -->
+    <!-- Academic -->
 
     <div id="academic"
          class="section">
@@ -383,7 +357,7 @@ body{
 
                     <td>Student Name</td>
 
-                    <td>Aatish Rana</td>
+                    <td>{{ student.name }}</td>
 
                 </tr>
 
@@ -391,278 +365,23 @@ body{
 
                     <td>Course</td>
 
-                    <td>BCA</td>
+                    <td>{{ student.course }}</td>
 
                 </tr>
 
                 <tr>
 
-                    <td>Semester</td>
+                    <td>Email</td>
 
-                    <td>Semester 4</td>
-
-                </tr>
-
-                <tr>
-
-                    <td>Registration No</td>
-
-                    <td>BCA2024001</td>
-
-                </tr>
-
-            </table>
-
-        </div>
-
-    </div>
-
-
-    <!-- Course Content -->
-
-    <div id="course"
-         class="section">
-
-        <div class="card">
-
-            <h2 style="color:#3206fb;">
-                Current Subjects
-            </h2>
-
-            <table class="erp-table">
-
-                <tr>
-
-                    <th>Subject</th>
-
-                    <th>Faculty</th>
-
-                    <th>Status</th>
+                    <td>{{ student.email }}</td>
 
                 </tr>
 
                 <tr>
 
-                    <td>Database Management</td>
+                    <td>Enrollment</td>
 
-                    <td>Mr. Kumar</td>
-
-                    <td style="color:green;font-weight:bold;">
-                        Completed
-                    </td>
-
-                </tr>
-
-                <tr>
-
-                    <td>Operating System</td>
-
-                    <td>Mrs. Singh</td>
-
-                    <td style="color:orange;font-weight:bold;">
-                        Running
-                    </td>
-
-                </tr>
-
-                <tr>
-
-                    <td>Python Programming</td>
-
-                    <td>Mr. Raj</td>
-
-                    <td style="color:green;font-weight:bold;">
-                        Completed
-                    </td>
-
-                </tr>
-
-            </table>
-
-        </div>
-
-    </div>
-
-
-    <!-- Examination -->
-
-    <div id="exam"
-         class="section">
-
-        <div class="card">
-
-            <h2 style="color:#3206fb;">
-                Subject-wise Marks
-            </h2>
-
-            <table class="erp-table">
-
-                <thead>
-
-                    <tr>
-
-                        <th>Subject</th>
-
-                        <th>Code</th>
-
-                        <th>Marks</th>
-
-                        <th>Grade</th>
-
-                    </tr>
-
-                </thead>
-
-                <tbody>
-
-                    <tr>
-
-                        <td>Database Management</td>
-
-                        <td>CS401</td>
-
-                        <td>88/100</td>
-
-                        <td style="color:green;font-weight:bold;">
-                            A
-                        </td>
-
-                    </tr>
-
-                    <tr>
-
-                        <td>Operating System</td>
-
-                        <td>CS402</td>
-
-                        <td>92/100</td>
-
-                        <td style="color:green;font-weight:bold;">
-                            A+
-                        </td>
-
-                    </tr>
-
-                    <tr>
-
-                        <td>Python</td>
-
-                        <td>CS403</td>
-
-                        <td>85/100</td>
-
-                        <td style="color:green;font-weight:bold;">
-                            A
-                        </td>
-
-                    </tr>
-
-                </tbody>
-
-            </table>
-
-        </div>
-
-
-        <!-- Download -->
-
-        <div class="card"
-             style="margin-top:30px;">
-
-            <div style="
-                display:flex;
-                justify-content:space-between;
-                align-items:center;
-                flex-wrap:wrap;
-                gap:20px;
-            ">
-
-                <div>
-
-                    <h3 style="margin-bottom:10px;">
-                        Official Report Card
-                    </h3>
-
-                    <p id="fee-status-msg"
-                       style="font-size:14px;color:#555;">
-
-                        Checking eligibility...
-
-                    </p>
-
-                </div>
-
-                <button id="download-report-btn"
-                        class="download-btn"
-                        disabled>
-
-                    🔒 Locked
-
-                </button>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- Fees -->
-
-    <div id="fees"
-         class="section">
-
-        <div class="card">
-
-            <h2 style="color:#3206fb;">
-                Fee Details
-            </h2>
-
-            <table class="erp-table">
-
-                <tr>
-
-                    <th>Fee Type</th>
-
-                    <th>Status</th>
-
-                    <th>Amount</th>
-
-                </tr>
-
-                <tr>
-
-                    <td>Tuition Fee</td>
-
-                    <td style="color:green;font-weight:bold;">
-                        Paid
-                    </td>
-
-                    <td>₹25,000</td>
-
-                </tr>
-
-                <tr>
-
-                    <td>Exam Fee</td>
-
-                    <td style="color:green;font-weight:bold;">
-                        Paid
-                    </td>
-
-                    <td>₹3,500</td>
-
-                </tr>
-
-                <tr>
-
-                    <td>Library Fee</td>
-
-                    <td style="color:green;font-weight:bold;">
-                        Paid
-                    </td>
-
-                    <td>₹2,000</td>
+                    <td>{{ student.enrollment }}</td>
 
                 </tr>
 
@@ -684,30 +403,30 @@ body{
 
                 <div class="profile-img">
 
-                    A
+                    {{ student.name[0] }}
 
                 </div>
 
                 <div class="profile-details">
 
                     <h2>
-                        Aatish Rana
+                        {{ student.name }}
                     </h2>
 
                     <p>
-                        Course : Bachelor of Computer Applications
+                        Course : {{ student.course }}
                     </p>
 
                     <p>
-                        Email : aatish@gmail.com
+                        Email : {{ student.email }}
                     </p>
 
                     <p>
-                        Phone : +91 9876543210
+                        Enrollment : {{ student.enrollment }}
                     </p>
 
                     <p>
-                        City : Ranchi
+                        Role : {{ student.role }}
                     </p>
 
                 </div>
@@ -718,11 +437,62 @@ body{
 
     </div>
 
+
+    <!-- Help -->
+
+    <div id="help"
+         class="section">
+
+        <div class="card">
+
+            <h2 style="color:#3206fb;">
+                Help & Support
+            </h2>
+
+            <table class="erp-table">
+
+                <tr>
+
+                    <th>Department</th>
+
+                    <th>Contact</th>
+
+                </tr>
+
+                <tr>
+
+                    <td>Technical Support</td>
+
+                    <td>support@erp.com</td>
+
+                </tr>
+
+                <tr>
+
+                    <td>Accounts Section</td>
+
+                    <td>accounts@erp.com</td>
+
+                </tr>
+
+                <tr>
+
+                    <td>Administration</td>
+
+                    <td>admin@erp.com</td>
+
+                </tr>
+
+            </table>
+
+        </div>
+
+    </div>
+
 </div>
 
 
 <script>
-
 
 // Sidebar Section Change
 
@@ -751,15 +521,11 @@ function showSection(sectionId,element){
 
         dashboard : "Student Dashboard",
 
-        academic : "Academic Profile",
+        academic : "Academic Result",
 
-        course : "Course Content",
+        profile : "Student Profile",
 
-        exam : "Examination",
-
-        fees : "Fee Details",
-
-        profile : "Student Profile"
+        help : "Help & Support"
 
     };
 
@@ -822,59 +588,6 @@ new Chart(ctx, {
     }
 
 });
-
-
-// Fee Verification
-
-function verifyFeeStatus(){
-
-    const feeText =
-    document.getElementById('fee-display')
-    .innerText;
-
-    const btn =
-    document.getElementById('download-report-btn');
-
-    const msg =
-    document.getElementById('fee-status-msg');
-
-    if(feeText === "₹0.00"){
-
-        btn.innerHTML =
-        "Download Report Card";
-
-        btn.disabled = false;
-
-        msg.innerHTML =
-        "✅ Eligible for download";
-
-        msg.style.color = "green";
-
-        btn.onclick = function(){
-
-            alert("Downloading Report Card...");
-
-        };
-
-    }
-
-    else{
-
-        btn.innerHTML =
-        "🔒 Pending Fees";
-
-        btn.disabled = true;
-
-        msg.innerHTML =
-        "❌ Please clear dues first";
-
-        msg.style.color = "#ff815e";
-
-    }
-
-}
-
-window.onload = verifyFeeStatus;
 
 </script>
 

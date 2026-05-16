@@ -159,27 +159,23 @@ h2 {
         * ID and Password are provided by Admin or sent to your registered email.
     </p>
 
-    <form>
+    <form action="{{ url_for('login')}}" method="POST">
         <div class="input-box">
             <label>Enrollment ID</label>
-            <input type="text" placeholder="Enter your Enrollment ID">
+            <input type="text" name="enrollment" placeholder="Enter your Enrollment ID">
         </div>
 
         <div class="input-box">
             <label>Password</label>
-            <input type="password" placeholder="Enter password">
+            <input type="password"name="password" placeholder="Enter password">
         </div>
 
-        
+        <button type="submit" class="btn">
+        Login
     </form>
-    <a href="teacher_dash.html"><button class="btn">Login</button></a>
+     
 
-    <div class="signup">
-        Don't have an account? <a href="#">Sign Up</a>
-    </div>
-    <div class="signup">
-         <a href="#">Forgot Password</a>
-    </div>
+     
 </div>
 
 <div class="about">
