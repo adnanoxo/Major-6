@@ -137,14 +137,14 @@ h2 {
 
 <div class="container">
     <div class="logo">
-        <img src="images\logosai.jpg">
+        <img src="{{ url_for ('static', filename='images/logosai.jpg')}}" >
     </div>
 
     <h2>Sign In (Admin)</h2>
 
      
 
-    <form action="{{ url_for('login') }}" method="POST">
+    <form action="{{ url_for('alogin') }}" method="POST">
         <div class="input-box">
             <label>Enrollment ID</label>
             <input type="text" name="enrollment" placeholder="Enter your Enrollment ID">
@@ -159,7 +159,7 @@ h2 {
     </button>
 
     </form>
-    <a href="dashboard.html"><button class="btn">Login</button></a>
+     
      
 </div>
 

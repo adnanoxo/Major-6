@@ -151,8 +151,8 @@
 
 <div class="sidebar">
     <h2>ERP Portal</h2>
-    <a href="dashboard.html">Dashboard</a>
-    <a href=student_registration.html>Student Registration</a>
+    <a href="{{ url_for ('adash')}}">Dashboard</a>
+    <a href="{{ url_for ('sdr')}}">Student Registration</a>
     <a href="#" class="active">Teacher Registration</a>
     <a href="#">Stats</a>
     <a href="#">Support</a>
@@ -162,27 +162,27 @@
 
     <div class="header">
         <h1>Registration Desk</h1>
-        <a href="index.html" class="logout">Logout</a>
+        <a href="{{ url_for('logout')}}" class="logout">Logout</a>
     </div>
 
     
 
     <!-- Teacher Registration Form -->
-    <div class="form-card" style="margin-top: 50px;">
+    <div class="form-card" style="margin-top: 50px ;">
         <h2>Teacher Registration</h2>
-        <form action="/submit_teacher" method="POST" onsubmit="return handleSubmission()">
+        <form action="{{ url_for('tregisters')}}" method="POST" onsubmit="return handleSubmission()">
             <div class="grid-form">
                 <div class="form-group">
                     <label>Faculty Name</label>
-                    <input type="text" name="teacher_name" placeholder="Enter teacher name" required>
+                    <input type="text" name="name" placeholder="Enter teacher name" required>
                 </div>
                 <div class="form-group">
                     <label>Employee ID</label>
-                    <input type="text" name="emp_id" placeholder="EMP-101" required>
+                    <input type="text" name="enrollment" placeholder="EMP-101" required>
                 </div>
                 <div class="form-group">
                     <label>Department</label>
-                    <select name="dept">
+                    <select name="course">
                         <option value="CS">COMPUTER SCIENCE</option>
                         <option value="MGMT">MANAGEMENT</option>
                         <option value="ENG">AGRICULTURE</option>
@@ -192,21 +192,19 @@
                     
                 </div>
                 <div class="form-group">
-                    <label>Specialization</label>
-                    <input type="text" name="spec" placeholder="e.g. Data Science, Finance">
-                </div>
-                <!-- Password Field -->
+    <label>Email ID</label>
+    <input type="email" name="email" placeholder="student@university.com">
+</div>
+
 <div class="form-group">
     <label>Password</label>
     <input type="password" id="reg_pass" name="password" placeholder="••••••••" required>
 </div>
 
-<!-- Confirm Password Field with Warning Message -->
 <div class="form-group">
     <label>Confirm Password</label>
     <input type="password" id="reg_confirm" name="confirm_password" placeholder="••••••••" required>
-    
-    <!-- This is the hidden warning message -->
+
     <span id="pass_warn" style="color: #ff815e; font-size: 12px; font-weight: 600; display: none; margin-top: 8px;">
         ⚠️ Passwords do not match!
     </span>
@@ -235,7 +233,7 @@ function handleSubmission() {
 
     // 3. Return false temporarily to see the popup
     // Change this to 'true' once you connect your Flask/MySQL backend!
-    return false; 
+    return true; 
 }
 
 function closeModal() {
