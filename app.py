@@ -30,7 +30,7 @@ def thrlogin():
 @app.route('/adminlogin')
 def admlogin():
     return render_template('AdminLogin.html')
-#-------------password check---------
+#------------- student password check---------
 @app.route('/login', methods=['POST'])
 def login():
 
@@ -67,8 +67,6 @@ def login():
             elif role == "teacher":
                 return redirect(url_for('thdash'))
                 
-            elif role == "admin":
-                return redirect(url_for('adash'))
             else:
                 return "Invalid Role"
 
@@ -77,7 +75,44 @@ def login():
 
     else:
         return "User Not Found"
+#------------admin password check------------
+@app.route('/alogin', methods=['POST'])
+def alogin():
 
+    enrollment = request.form.get('enrollment')
+    password = request.form.get('password')
+
+    cursor = db.cursor(dictionary=True)
+
+    sql = """
+    SELECT * FROM registration
+    WHERE enrollment = %s
+    """
+
+    cursor.execute(sql, (enrollment,))
+
+    user = cursor.fetchone()
+
+    if user:
+
+        # Match hashed password
+        if check_password_hash(
+                user['password'],
+                password
+        ):
+            
+            # Get role from database
+            session['enrollment'] = user['enrollment']
+            session['role'] = user['role']
+            session['name'] = user['name']
+            # Redirect according to role
+            return redirect(url_for('adash'))
+
+        else:
+            return "Wrong Password"
+
+    else:
+        return "User Not Found"
 #-----------student registration page---------------
 
 @app.route('/sreg')
@@ -100,7 +135,7 @@ def sregisters():
     sql_query="INSERT INTO registration (enrollment, name, email, password,role, course) VALUES (%s, %s,%s, %s,%s,%s)"
     cursor.execute(sql_query,(enrollment,name,email,password,role,course))
     db.commit()
-    return redirect(url_for('stdlogin'))
+    return redirect(url_for('sdr'))
 
 #-----------------Teacher Registration-----------------------
 @app.route('/treg')
@@ -122,7 +157,7 @@ def tregisters():
     sql_query="INSERT INTO registration (enrollment, name, email, password,role, course) VALUES (%s, %s,%s, %s,%s,%s)"
     cursor.execute(sql_query,(enrollment,name,email,password,role,course))
     db.commit()
-    return redirect(url_for('thrlogin'))
+    return redirect(url_for('thr'))
 #-----------------student dashboqrd----------------
 @app.route('/studentdashboard')
 def stdash():
@@ -136,12 +171,27 @@ def stdash():
 #-----------------teacher dashboard--------------
 @app.route('/teacherdashboard')
 def thdash():
-    return render_template('teacher_dash.html')
+    enrollment = session.get('enrollment')
+    cursor = db.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM registration WHERE enrollment=%s", (enrollment,))
+    teacher = cursor.fetchone()
+    return render_template('teacher_dash.html', teacher=teacher)
 
 #-----------Admin Dashboard--------------
 @app.route('/admindashboard')
 def adash():
-    return render_template('dashboard.html')
+    enrollment = session.get('enrollment')
+
+    cursor = db.cursor(dictionary=True)
+
+    cursor.execute(
+        "SELECT * FROM registration WHERE enrollment=%s",
+        (enrollment,)
+    )
+
+    admin = cursor.fetchone()
+
+    return render_template('dashboard.html', admin=admin)
  
 #-------------------Logout------------------
 @app.route('/logout')
@@ -184,15 +234,13 @@ def rlogin():
     cursor = db.cursor(dictionary=True)
 
     sql = """
-    select registration.enrollment, registration.name,
-      result.semester from registration inner join 
-        result on registration.enrollment = result.enrollment 
-        where registration.enrollment = '%s';
+    SELECT * FROM registration
+    WHERE enrollment = %s
     """
     print
     cursor.execute(sql, (enrollment,))
 
-    ruser = cursor.fetchall()
+    ruser = cursor.fetchone()
     print(ruser)
     if ruser:
 
@@ -223,7 +271,25 @@ def rlogin():
 #--------------marksheet----------
 @app.route('/marksheet')
 def marksheet():
-    return render_template('marksheet.html')
+    enrollment = session.get('enrollment')
+    cursor = db.cursor(dictionary=True)
+    query = """
+    SELECT r.enrollment, r.name, m.batch,
+           m.subject, m.marks, m.semester
+    FROM registration r
+    INNER JOIN result m
+    ON r.enrollment = m.enrollment
+    WHERE r.enrollment = %s
+    """
+    
+    cursor.execute(query, (enrollment,))
+    data = cursor.fetchall()
+    cursor.execute("SELECT * FROM registration WHERE enrollment=%s", (enrollment,)
+                   )
+    student =  cursor.fetchone()
+    
+    return render_template('marksheet.html',student=student, data = data)
+     
 
 @app.route('/resultlogin')
 def result():
