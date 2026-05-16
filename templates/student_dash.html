@@ -2,15 +2,11 @@
 <html lang="en">
 
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Student ERP Dashboard</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student ERP Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
         * {
@@ -38,11 +34,10 @@
             top: 0;
         }
 
-.sidebar h2{
-    text-align:center;
-    margin-bottom:30px;
-    color:white;
-}
+        .sidebar h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
 
         .sidebar a {
             display: block;
@@ -117,18 +112,13 @@
             gap: 20px;
         }
 
-.card{
-    background:white;
-    color:#333;
-    padding:25px;
-    border-radius:18px;
-    box-shadow:0 6px 20px rgba(0,0,0,0.15);
-    transition:0.3s;
-}
-
-.card:hover{
-    transform:translateY(-5px);
-}
+        .card {
+            background: white;
+            color: #333;
+            padding: 25px;
+            border-radius: 18px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
 
         .card h3 {
             color: #666;
@@ -196,113 +186,46 @@
                 width: 100%;
             }
 
-    .erp-table{
-        display:block;
-        overflow-x:auto;
-    }
-
-}
-
-</style>
-
+            .erp-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-<!-- Sidebar -->
-
-<div class="sidebar">
-
-    <h2>Student Panel</h2>
-
-    <a onclick="showSection('dashboard',this)"
-       class="active">
-        Dashboard
-    </a>
-
-    <a href="{{ url_for('result') }}" target="_self" 
-    onclick="showSection('academic',this)">
-    Academic Result
-</a>
-
-    <a onclick="showSection('profile',this)">
-        Profile
-    </a>
-
-    <a onclick="showSection('help',this)">
-        Help
-    </a>
-
-</div>
-
-<!-- Main -->
-
-<div class="main">
-
-    <!-- Header -->
-
-    <div class="header">
-
-        <h1 id="page-title">
-            Student Dashboard
-        </h1>
-
-        <a href="{{ url_for('logout') }}"
-           class="logout">
-
-            Logout
-
-        </a>
-
+    <!-- Sidebar with exactly 3 navigation paths -->
+    <div class="sidebar">
+        <h2>ERP Portal</h2>
+        <a href="#" class="active" onclick="showSection('dashboard', this)">Dashboard</a>
+        <a href="{{ url_for('result') }}" target="content-frame" onclick="showIframeSection(this)">Academic Result</a>
+        <a href="#" onclick="showSection('help', this)">Help</a>
     </div>
 
-
-    <!-- Dashboard -->
-
-    <div id="dashboard"
-         class="section active-section">
-
-        <div class="card-container">
-
-            <div class="card">
-
-                <h3>Attendance Rate</h3>
-
-                <p>92%</p>
-
-            </div>
-
-            <div class="card">
-
-                <h3>Current CGPA</h3>
-
-                <p>8.75</p>
-
-            </div>
-
-            <div class="card">
-
-                <h3>Semester</h3>
-
-                <p>4</p>
-
-            </div>
-
+    <!-- Main Content Window -->
+    <div class="main">
+        
+        <!-- Header Section -->
+        <div class="header">
+            <h1 id="page-title">Welcome Back Student</h1>
+            <a href="{{ url_for('logout') }}" class="logout">Logout</a>
         </div>
 
-        <!-- Chart -->
-
-        <div class="card"
-             style="margin-top:30px;">
-
-            <h3 style="margin-bottom:20px;">
-                Semester-wise Performance
-            </h3>
-
-            <div style="height:250px;">
-
-                <canvas id="performanceChart"></canvas>
-
+        <!-- Dashboard Section -->
+        <div id="dashboard" class="section active-section">
+            <div class="card-container">
+                <div class="card"><h3>Attendance Rate</h3><p>92%</p></div>
+                <div class="card"><h3>Current CGPA</h3><p>8.75</p></div>
+                <div class="card"><h3>Total Subjects</h3><p>6</p></div>
+            </div>
+            
+            <div class="card" style="margin-top:30px;">
+                <h3 style="margin-bottom:20px;">Semester-wise Performance</h3>
+                <div style="height:250px;">
+                    <canvas id="performanceChart"></canvas>
+                </div>
             </div>
         </div>
 
@@ -311,215 +234,67 @@
             <iframe name="content-frame"></iframe>
         </div>
 
-
-    <!-- Academic -->
-
-    <div id="academic"
-         class="section">
-
-        <div class="card">
-
-            <h2 style="color:#3206fb;">
-                Academic Information
-            </h2>
-
-            <table class="erp-table">
-
-                <tr>
-
-                    <th>Field</th>
-
-                    <th>Details</th>
-
-                </tr>
-
-                <tr>
-
-                    <td>Student Name</td>
-
-                    <td>{{ student.name }}</td>
-
-                </tr>
-
-                <tr>
-
-                    <td>Course</td>
-
-                    <td>{{ student.course }}</td>
-
-                </tr>
-
-                <tr>
-
-                    <td>Email</td>
-
-                    <td>{{ student.email }}</td>
-
-                </tr>
-
-                <tr>
-
-                    <td>Enrollment</td>
-
-                    <td>{{ student.enrollment }}</td>
-
-                </tr>
-
-            </table>
-
-        </div>
-
-    </div>
-
-
-    <!-- Profile -->
-
-    <div id="profile"
-         class="section">
-
-        <div class="card">
-
-            <div class="profile-box">
-
-                <div class="profile-img">
-
-                    {{ student.name[0] }}
-
-                </div>
-
-                <div class="profile-details">
-
-                    <h2>
-                        {{ student.name }}
-                    </h2>
-
-                    <p>
-                        Course : {{ student.course }}
-                    </p>
-
-                    <p>
-                        Email : {{ student.email }}
-                    </p>
-
-                    <p>
-                        Enrollment : {{ student.enrollment }}
-                    </p>
-
-                    <p>
-                        Role : {{ student.role }}
-                    </p>
-
-                </div>
-
-            </div>
-
-        </div>
-
+        <!-- Help Section -->
+<div id="help" class="section">
+    <div class="card" style="background: rgba(0, 0, 0, 0.25); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1);">
+        <h3 style="color: #fddf02;">Help & Support</h3>
+        <p style="font-size: 16px; color: #fff; margin-top: 10px; opacity: 0.9;">
+            Contact your college administration for ERP related issues.
+        </p>
     </div>
 </div>
 
-</div>
+    </div>
 
+    <script>
+        // Function for standard internal template views (Dashboard / Help)
+        function showSection(sectionId, element) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove("active-section"));
+            document.getElementById(sectionId).classList.add("active-section");
 
-<script>
+            document.querySelectorAll('.sidebar a').forEach(link => link.classList.remove("active"));
+            element.classList.add("active");
 
-// Sidebar Section Change
+            const titles = { 
+                dashboard: "Student Dashboard", 
+                help: "Help & Support" 
+            };
+            document.getElementById("page-title").innerText = titles[sectionId];
+        }
 
-function showSection(sectionId,element){
+        // Function tailored for handling dynamic iframe context routing
+        function showIframeSection(element) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove("active-section"));
+            document.getElementById('iframe-container').classList.add("active-section");
 
-    document.querySelectorAll('.section')
-    .forEach(section=>{
+            document.querySelectorAll('.sidebar a').forEach(link => link.classList.remove("active"));
+            element.classList.add("active");
 
-        section.style.display = "none";
+            document.getElementById("page-title").innerText = "Academic Results";
+        }
 
-    });
-
-    document.getElementById(sectionId)
-    .style.display = "block";
-
-    document.querySelectorAll('.sidebar a')
-    .forEach(link=>{
-
-        link.classList.remove("active");
-
-    });
-
-    element.classList.add("active");
-
-    const titles = {
-
-        dashboard : "Student Dashboard",
-
-        academic : "Academic Result",
-
-        profile : "Student Profile",
-
-        help : "Help & Support"
-
-    };
-
-    document.getElementById("page-title")
-    .innerText = titles[sectionId];
-
-}
-
-
-// Chart
-
-const ctx =
-document.getElementById('performanceChart')
-.getContext('2d');
-
-new Chart(ctx, {
-
-    type:'line',
-
-    data:{
-
-        labels:[
-            'Sem 1',
-            'Sem 2',
-            'Sem 3',
-            'Sem 4'
-        ],
-
-        datasets:[{
-
-            label:'GPA Score',
-
-            data:[
-                7.5,
-                8.1,
-                8.3,
-                8.75
-            ],
-
-            borderColor:'#3206fb',
-
-            backgroundColor:'rgba(50,6,251,0.1)',
-
-            fill:true,
-
-            tension:0.4,
-
-            borderWidth:3
-
-        }]
-
-    },
-
-    options:{
-
-        responsive:true,
-
-        maintainAspectRatio:false
-
-    }
-
-});
-
-</script>
+        /* Performance Chart Setup */
+        const ctx = document.getElementById('performanceChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Sem 1', 'Sem 2', 'Sem 3', 'Sem 4'],
+                datasets: [{
+                    label: 'GPA Score',
+                    data: [7.5, 8.1, 8.3, 8.75],
+                    borderColor: '#3206fb',
+                    backgroundColor: 'rgba(50,6,251,0.1)',
+                    fill: true,
+                    tension: 0.4,
+                    borderWidth: 3
+                }]
+            },
+            options: { 
+                responsive: true, 
+                maintainAspectRatio: false 
+            }
+        });
+    </script>
 
 </body>
-
 </html>
