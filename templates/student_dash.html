@@ -2,14 +2,12 @@
 <html lang="en">
 
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Student ERP Dashboard</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
@@ -43,7 +41,6 @@ body{
 .sidebar h2{
     text-align:center;
     margin-bottom:30px;
-    color:white;
 }
 
 .sidebar a{
@@ -127,11 +124,6 @@ body{
     padding:25px;
     border-radius:18px;
     box-shadow:0 6px 20px rgba(0,0,0,0.15);
-    transition:0.3s;
-}
-
-.card:hover{
-    transform:translateY(-5px);
 }
 
 .card h3{
@@ -227,7 +219,6 @@ body{
 }
 
 </style>
-
 </head>
 
 <body>
@@ -238,9 +229,10 @@ body{
 
     <h2>ERP Portal</h2>
 
-    <a onclick="showSection('dashboard',this)"
-       class="active">
-        Dashboard
+    <a href="#"
+       class="active"
+       onclick="showSection('dashboard', this)">
+       Dashboard
     </a>
 
     <a href="{{ url_for('result') }}" target="_self">
@@ -266,7 +258,7 @@ body{
     <div class="header">
 
         <h1 id="page-title">
-            Student Dashboard
+            Welcome Back {{user}}
         </h1>
 
         <a href="{{ url_for('logout') }}"
@@ -278,28 +270,20 @@ body{
 
     </div>
 
+    <!-- Dashboard Section -->
 
-    <!-- Dashboard -->
-
-    <div id="dashboard"
-         class="section active-section">
+    <div id="dashboard" class="section active-section">
 
         <div class="card-container">
 
             <div class="card">
-
                 <h3>Attendance Rate</h3>
-
                 <p>92%</p>
-
             </div>
 
             <div class="card">
-
                 <h3>Current CGPA</h3>
-
                 <p>8.75</p>
-
             </div>
 
             <div class="card">
@@ -314,23 +298,21 @@ body{
 
         <!-- Chart -->
 
-        <div class="card"
-             style="margin-top:30px;">
+        <div class="card" style="margin-top:30px;">
 
             <h3 style="margin-bottom:20px;">
                 Semester-wise Performance
             </h3>
 
             <div style="height:250px;">
-
                 <canvas id="performanceChart"></canvas>
-
             </div>
 
         </div>
 
     </div>
 
+    <!-- Help Section -->
 
     <!-- Academic -->
 
@@ -491,7 +473,6 @@ body{
 
 </div>
 
-
 <script>
 
 // Sidebar Section Change
@@ -503,22 +484,20 @@ function showSection(sectionId,element){
 
         section.style.display = "none";
 
+    document.querySelectorAll('.section').forEach(section=>{
+        section.classList.remove("active-section");
     });
 
     document.getElementById(sectionId)
-    .style.display = "block";
+    .classList.add("active-section");
 
-    document.querySelectorAll('.sidebar a')
-    .forEach(link=>{
-
+    document.querySelectorAll('.sidebar a').forEach(link=>{
         link.classList.remove("active");
-
     });
 
     element.classList.add("active");
 
     const titles = {
-
         dashboard : "Student Dashboard",
 
         academic : "Academic Result",
@@ -529,16 +508,13 @@ function showSection(sectionId,element){
 
     };
 
-    document.getElementById("page-title")
-    .innerText = titles[sectionId];
-
+    document.getElementById("page-title").innerText =
+    titles[sectionId];
 }
 
-
-// Chart
-
-const ctx =
-document.getElementById('performanceChart')
+/* Chart */
+const ctx = document
+.getElementById('performanceChart')
 .getContext('2d');
 
 new Chart(ctx, {
@@ -546,45 +522,22 @@ new Chart(ctx, {
     type:'line',
 
     data:{
-
-        labels:[
-            'Sem 1',
-            'Sem 2',
-            'Sem 3',
-            'Sem 4'
-        ],
+        labels:['Sem 1','Sem 2','Sem 3','Sem 4'],
 
         datasets:[{
-
             label:'GPA Score',
-
-            data:[
-                7.5,
-                8.1,
-                8.3,
-                8.75
-            ],
-
+            data:[7.5,8.1,8.3,8.75],
             borderColor:'#3206fb',
-
             backgroundColor:'rgba(50,6,251,0.1)',
-
             fill:true,
-
             tension:0.4,
-
             borderWidth:3
-
         }]
-
     },
 
     options:{
-
         responsive:true,
-
         maintainAspectRatio:false
-
     }
 
 });
@@ -592,5 +545,4 @@ new Chart(ctx, {
 </script>
 
 </body>
-
 </html>
