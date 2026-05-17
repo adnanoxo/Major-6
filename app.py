@@ -20,7 +20,9 @@ def home():
 #--------------student login page---------------------
 @app.route('/studentlogin')
 def stdlogin():
-    return render_template('StudentLogin.html')
+    # Pass show_error=False here so the modal stays hidden when opening the page normally
+    return render_template('StudentLogin.html', show_error=False)
+
 #-------------Teacher Login page---------------------
 @app.route('/teacherlogin')
 def thrlogin():
@@ -30,6 +32,7 @@ def thrlogin():
 @app.route('/adminlogin')
 def admlogin():
     return render_template('AdminLogin.html')
+
 #------------- student password check---------
 @app.route('/login', methods=['POST'])
 def login():
@@ -114,8 +117,8 @@ def alogin():
 
     else:
         return redirect(url_for('wronglogin'))
-#-----------student registration page---------------
 
+#-----------student registration page---------------
 @app.route('/sreg')
 def sdr():
     return render_template('student_registration.html')
@@ -136,7 +139,11 @@ def sregisters():
     sql_query="INSERT INTO registration (enrollment, name, email, password,role, course) VALUES (%s, %s,%s, %s,%s,%s)"
     cursor.execute(sql_query,(enrollment,name,email,password,role,course))
     db.commit()
-    return redirect(url_for('sdr'))
+    cursor.close()
+     
+
+    # ⬇️ CHANGE THE OLD REDIRECT / RETURN LINE TO THIS ⬇️
+    return render_template('student_registration.html', registration_success=True)
 
 #-----------------Teacher Registration-----------------------
 @app.route('/treg')
@@ -158,14 +165,17 @@ def tregisters():
     sql_query="INSERT INTO registration (enrollment, name, email, password,role, course) VALUES (%s, %s,%s, %s,%s,%s)"
     cursor.execute(sql_query,(enrollment,name,email,password,role,course))
     db.commit()
-    return redirect(url_for('thr'))
-#-----------------student dashboqrd----------------
+    cursor.close() 
+
+    # ⬇️ CHANGE THE OLD REDIRECT / RETURN LINE TO THIS ⬇️
+    return render_template('T_register.html', registration_success=True)
+
+#-----------------student dashboard----------------
 @app.route('/studentdashboard')
 def stdash():
     enrollment = session.get('enrollment')
     cursor = db.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM registration WHERE enrollment=%s", (enrollment,)
-                   )
+    cursor.execute("SELECT * FROM registration WHERE enrollment=%s", (enrollment,))
     student =  cursor.fetchone()
     return render_template('student_dash.html', student = student)
 
@@ -225,6 +235,7 @@ def uploadmarks():
     db.commit()
 
     return redirect(url_for('thdash'))
+
 #---------------view results-------------------
 @app.route('/rlogin', methods=['POST'])
 def rlogin():
@@ -238,7 +249,6 @@ def rlogin():
     SELECT * FROM registration
     WHERE enrollment = %s
     """
-    print
     cursor.execute(sql, (enrollment,))
 
     ruser = cursor.fetchone()
@@ -263,10 +273,10 @@ def rlogin():
                 return redirect(url_for('result'))
 
         else:
-            return redirect(url_for('result'))
+            return redirect(url_for('wronglogin'))
 
     else:
-        return redirect(url_for('result'))
+        return redirect(url_for('wronglogin'))
 
 #--------------marksheet----------
 @app.route('/marksheet')
@@ -284,22 +294,20 @@ def marksheet():
     
     cursor.execute(query, (enrollment,))
     data = cursor.fetchall()
-    cursor.execute("SELECT * FROM registration WHERE enrollment=%s", (enrollment,)
-                   )
+    cursor.execute("SELECT * FROM registration WHERE enrollment=%s", (enrollment,))
     student =  cursor.fetchone()
     
     return render_template('marksheet.html',student=student, data = data)
      
-
 @app.route('/resultlogin')
 def result():
     return render_template('result_verification.html')
 
+# CHANGED: Re-renders 'StudentLogin.html' but injects show_error=True to trigger your popup modal
 @app.route('/wronglogin')
 def wronglogin():
-    return render_template('wrong_uname_pass.html')
+    return render_template('StudentLogin.html', show_error=True)
 
-    
 #--------run app-------------   
 if __name__ == '__main__':
     app.run(debug=True, port=5050)
