@@ -122,49 +122,26 @@ th {
 
     <!-- INFO -->
     <div class="info">
-        <div><b>Enrollment No:</b> 123456</div>
-        <div><b>Name:</b> Adnan Amir</div>
-        <div><b>Semester:</b> 3</div>
-        <div><b>Batch:</b> 2023-2026</div>
+        <div><b>Enrollment No:</b> {{student.enrollment}}</div>
+        <div><b>Name:</b> {{student.name}}</div>
+        <div><b>Semester:</b>{{data[0].semester}}</div>
+        <div><b>Batch:</b>{{data[0].batch}}</div>
     </div>
 
     <!-- TABLE -->
     <table>
         <tr>
             <th>Subject</th>
-            <th>Sem 5</th>
+            <th>Sem {{data[0].semester}}</th>
              
         </tr>
-
+        {% for row in data %}
         <tr>
-            <td>AI/ML</td>
-            <td>78/100</td>
+            <td>{{row.subject}}</td>
+            <td>{{row.marks}}</td>
              
         </tr>
-
-        <tr>
-            <td>Python</td>
-            <td>80/100</td>
-            
-        </tr>
-
-        <tr>
-            <td>DBMS</td>
-            <td>75/100</td>
-             
-        </tr>
-
-        <tr>
-            <td>English</td>
-            <td>70/100</td>
-            
-        </tr>
-
-        <tr>
-            <td>Maths</td>
-            <td>65/100</td>
-             
-        </tr>
+        {% endfor %}
 
         <!-- STATUS ROW -->
         <tr>

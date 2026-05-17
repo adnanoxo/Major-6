@@ -183,8 +183,8 @@
 <div class="sidebar">
     <h2>Home</h2>
     <a href="#" class="active">Dashboard</a>
-    <a href=student_registration.html>Student Registration</a>
-    <a href=T_register.html>Teacher Registration</a>
+    <a href="{{ url_for ('sdr')}}">Student Registration</a>
+    <a href="{{ url_for ('thr')}}">Teacher Registration</a>
     <a href="#">Stats</a>
     <a href="#">Support</a>
 </div>
@@ -192,11 +192,11 @@
 <div class="main">
 
     <div class="header">
-        <h1>Hello, {{User}}</h1>
-        <a href="index.html" class="logout">Logout</a>
+        <h1>Hello, {{name}}</h1>
+        <a href="{{ url_for ('logout')}}" class="logout">Logout</a>
     </div>
 
-    
+    <h2>Admin Panel</h2>
 
     <div class="card-container">
         <div class="card">

@@ -8,7 +8,7 @@ app.secret_key = "aatish_secret_key"
 db = mysql.connector.connect(
     host='localhost',
     user='root',
-    password='aatish2004',
+    password='0044',
     database='major6',
     port = '3305'
 )
@@ -20,7 +20,9 @@ def home():
 #--------------student login page---------------------
 @app.route('/studentlogin')
 def stdlogin():
-    return render_template('StudentLogin.html')
+    # Pass show_error=False here so the modal stays hidden when opening the page normally
+    return render_template('StudentLogin.html', show_error=False)
+
 #-------------Teacher Login page---------------------
 @app.route('/teacherlogin')
 def thrlogin():
@@ -30,7 +32,8 @@ def thrlogin():
 @app.route('/adminlogin')
 def admlogin():
     return render_template('AdminLogin.html')
-#-------------password check---------
+
+#------------- student password check---------
 @app.route('/login', methods=['POST'])
 def login():
 
@@ -67,19 +70,55 @@ def login():
             elif role == "teacher":
                 return redirect(url_for('thdash'))
                 
-            elif role == "admin":
-                return redirect(url_for('adash'))
             else:
-                return "Invalid Role"
+                return redirect(url_for('wronglogin'))
 
         else:
-            return "Wrong Password"
+            return redirect(url_for('wronglogin'))
 
     else:
-        return "User Not Found"
+        return redirect(url_for('wronglogin'))
+    
+#------------admin password check------------
+@app.route('/alogin', methods=['POST'])
+def alogin():
+
+    enrollment = request.form.get('enrollment')
+    password = request.form.get('password')
+
+    cursor = db.cursor(dictionary=True)
+
+    sql = """
+    SELECT * FROM registration
+    WHERE enrollment = %s
+    """
+
+    cursor.execute(sql, (enrollment,))
+
+    user = cursor.fetchone()
+
+    if user:
+
+        # Match hashed password
+        if check_password_hash(
+                user['password'],
+                password
+        ):
+            
+            # Get role from database
+            session['enrollment'] = user['enrollment']
+            session['role'] = user['role']
+            session['name'] = user['name']
+            # Redirect according to role
+            return redirect(url_for('adash'))
+
+        else:
+            return redirect(url_for('wronglogin'))
+
+    else:
+        return redirect(url_for('wronglogin'))
 
 #-----------student registration page---------------
-
 @app.route('/sreg')
 def sdr():
     return render_template('student_registration.html')
@@ -100,7 +139,11 @@ def sregisters():
     sql_query="INSERT INTO registration (enrollment, name, email, password,role, course) VALUES (%s, %s,%s, %s,%s,%s)"
     cursor.execute(sql_query,(enrollment,name,email,password,role,course))
     db.commit()
-    return redirect(url_for('stdlogin'))
+    cursor.close()
+     
+
+    # ⬇️ CHANGE THE OLD REDIRECT / RETURN LINE TO THIS ⬇️
+    return render_template('student_registration.html', registration_success=True)
 
 #-----------------Teacher Registration-----------------------
 @app.route('/treg')
@@ -122,26 +165,44 @@ def tregisters():
     sql_query="INSERT INTO registration (enrollment, name, email, password,role, course) VALUES (%s, %s,%s, %s,%s,%s)"
     cursor.execute(sql_query,(enrollment,name,email,password,role,course))
     db.commit()
-    return redirect(url_for('thrlogin'))
-#-----------------student dashboqrd----------------
+    cursor.close() 
+
+    # ⬇️ CHANGE THE OLD REDIRECT / RETURN LINE TO THIS ⬇️
+    return render_template('T_register.html', registration_success=True)
+
+#-----------------student dashboard----------------
 @app.route('/studentdashboard')
 def stdash():
     enrollment = session.get('enrollment')
     cursor = db.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM registration WHERE enrollment=%s", (enrollment,)
-                   )
+    cursor.execute("SELECT * FROM registration WHERE enrollment=%s", (enrollment,))
     student =  cursor.fetchone()
     return render_template('student_dash.html', student = student)
 
 #-----------------teacher dashboard--------------
 @app.route('/teacherdashboard')
 def thdash():
-    return render_template('teacher_dash.html')
+    enrollment = session.get('enrollment')
+    cursor = db.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM registration WHERE enrollment=%s", (enrollment,))
+    teacher = cursor.fetchone()
+    return render_template('teacher_dash.html', teacher=teacher)
 
 #-----------Admin Dashboard--------------
 @app.route('/admindashboard')
 def adash():
-    return render_template('dashboard.html')
+    enrollment = session.get('enrollment')
+
+    cursor = db.cursor(dictionary=True)
+
+    cursor.execute(
+        "SELECT * FROM registration WHERE enrollment=%s",
+        (enrollment,)
+    )
+
+    admin = cursor.fetchone()
+
+    return render_template('dashboard.html', admin=admin)
  
 #-------------------Logout------------------
 @app.route('/logout')
@@ -174,6 +235,7 @@ def uploadmarks():
     db.commit()
 
     return redirect(url_for('thdash'))
+
 #---------------view results-------------------
 @app.route('/rlogin', methods=['POST'])
 def rlogin():
@@ -184,15 +246,12 @@ def rlogin():
     cursor = db.cursor(dictionary=True)
 
     sql = """
-    select registration.enrollment, registration.name,
-      result.semester from registration inner join 
-        result on registration.enrollment = result.enrollment 
-        where registration.enrollment = '%s';
+    SELECT * FROM registration
+    WHERE enrollment = %s
     """
-    print
     cursor.execute(sql, (enrollment,))
 
-    ruser = cursor.fetchall()
+    ruser = cursor.fetchone()
     print(ruser)
     if ruser:
 
@@ -211,24 +270,44 @@ def rlogin():
                   return redirect(url_for('marksheet'))
 
             else:
-                return "Invalid Role"
+                return redirect(url_for('result'))
 
         else:
-            return "Wrong Password"
+            return redirect(url_for('wronglogin'))
 
     else:
-        return "User Not Found"
-    
+        return redirect(url_for('wronglogin'))
 
 #--------------marksheet----------
 @app.route('/marksheet')
 def marksheet():
-    return render_template('marksheet.html')
-
+    enrollment = session.get('enrollment')
+    cursor = db.cursor(dictionary=True)
+    query = """
+    SELECT r.enrollment, r.name, m.batch,
+           m.subject, m.marks, m.semester
+    FROM registration r
+    INNER JOIN result m
+    ON r.enrollment = m.enrollment
+    WHERE r.enrollment = %s
+    """
+    
+    cursor.execute(query, (enrollment,))
+    data = cursor.fetchall()
+    cursor.execute("SELECT * FROM registration WHERE enrollment=%s", (enrollment,))
+    student =  cursor.fetchone()
+    
+    return render_template('marksheet.html',student=student, data = data)
+     
 @app.route('/resultlogin')
 def result():
     return render_template('result_verification.html')
-    
+
+# CHANGED: Re-renders 'StudentLogin.html' but injects show_error=True to trigger your popup modal
+@app.route('/wronglogin')
+def wronglogin():
+    return render_template('StudentLogin.html', show_error=True)
+
 #--------run app-------------   
 if __name__ == '__main__':
     app.run(debug=True, port=5050)

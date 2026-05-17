@@ -151,8 +151,8 @@
 
 <div class="sidebar">
     <h2>ERP Portal</h2>
-    <a href="dashboard.html">Dashboard</a>
-    <a href=student_registration.html>Student Registration</a>
+    <a href="{{ url_for ('adash')}}">Dashboard</a>
+    <a href="{{ url_for ('sdr')}}">Student Registration</a>
     <a href="#" class="active">Teacher Registration</a>
     <a href="#">Stats</a>
     <a href="#">Support</a>
@@ -162,27 +162,27 @@
 
     <div class="header">
         <h1>Registration Desk</h1>
-        <a href="index.html" class="logout">Logout</a>
+        <a href="{{ url_for('logout')}}" class="logout">Logout</a>
     </div>
 
     
 
     <!-- Teacher Registration Form -->
-    <div class="form-card" style="margin-top: 50px;">
+    <div class="form-card" style="margin-top: 50px ;">
         <h2>Teacher Registration</h2>
-        <form action="/submit_teacher" method="POST" onsubmit="return handleSubmission()">
+        <form action="{{ url_for('tregisters')}}" method="POST" onsubmit="return handleSubmission()">
             <div class="grid-form">
                 <div class="form-group">
                     <label>Faculty Name</label>
-                    <input type="text" name="teacher_name" placeholder="Enter teacher name" required>
+                    <input type="text" name="name" placeholder="Enter teacher name" required>
                 </div>
                 <div class="form-group">
                     <label>Employee ID</label>
-                    <input type="text" name="emp_id" placeholder="EMP-101" required>
+                    <input type="text" name="enrollment" placeholder="EMP-101" required>
                 </div>
                 <div class="form-group">
                     <label>Department</label>
-                    <select name="dept">
+                    <select name="course">
                         <option value="CS">COMPUTER SCIENCE</option>
                         <option value="MGMT">MANAGEMENT</option>
                         <option value="ENG">AGRICULTURE</option>
@@ -192,21 +192,19 @@
                     
                 </div>
                 <div class="form-group">
-                    <label>Specialization</label>
-                    <input type="text" name="spec" placeholder="e.g. Data Science, Finance">
-                </div>
-                <!-- Password Field -->
+    <label>Email ID</label>
+    <input type="email" name="email" placeholder="student@university.com">
+</div>
+
 <div class="form-group">
     <label>Password</label>
     <input type="password" id="reg_pass" name="password" placeholder="••••••••" required>
 </div>
 
-<!-- Confirm Password Field with Warning Message -->
 <div class="form-group">
     <label>Confirm Password</label>
     <input type="password" id="reg_confirm" name="confirm_password" placeholder="••••••••" required>
-    
-    <!-- This is the hidden warning message -->
+
     <span id="pass_warn" style="color: #ff815e; font-size: 12px; font-weight: 600; display: none; margin-top: 8px;">
         ⚠️ Passwords do not match!
     </span>
@@ -218,34 +216,35 @@
 
     <script>
 function handleSubmission() {
-    const password = document.getElementById("reg_pass").value;
-    const confirm = document.getElementById("reg_confirm").value;
-    const warning = document.getElementById("pass_warn");
-    const modal = document.getElementById("successModal");
+        const password = document.getElementById("reg_pass").value;
+        const confirm = document.getElementById("reg_confirm").value;
+        const warning = document.getElementById("pass_warn");
 
-    // 1. Password Match Validation
-    if (password !== confirm) {
-        warning.style.display = "block";
-        return false; // Stops everything if passwords don't match
+        // 1. Password Match Validation
+        if (password !== confirm) {
+            warning.style.display = "block";
+            return false; // Stops form submission if passwords don't match
+        }
+
+        warning.style.display = "none";
+        return true; // Allows the form to send data to Flask normally
     }
 
-    // 2. Show the Success Popup
-    warning.style.display = "none";
-    modal.style.display = "block";
+    function closeModal() {
+        document.getElementById("successModal").style.display = "none";
+    }
 
-    // 3. Return false temporarily to see the popup
-    // Change this to 'true' once you connect your Flask/MySQL backend!
-    return false; 
-}
-
-function closeModal() {
-    document.getElementById("successModal").style.display = "none";
-}
+    // This cleanly checks the Flask variable and opens the modal without causing red lines
+    {% if registration_success %}
+    window.onload = function() {
+        document.getElementById("successModal").style.display = "block";
+    }
+    {% endif %}
 </script>
-
     
 </div>
-<!-- The Modal (Hidden by default) -->
+
+<!-- The Modal (Back to a clean display: none style to satisfy VS Code) -->
 <div id="successModal" style="display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); backdrop-filter: blur(5px);">
     <div style="background: #ffffff; color: #333; margin: 15% auto; padding: 30px; border-radius: 15px; width: 350px; text-align: center; box-shadow: 0 5px 25px rgba(0,0,0,0.2);">
         <div style="font-size: 50px; color: #2ecc71; margin-bottom: 15px;">✔</div>

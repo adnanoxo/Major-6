@@ -401,7 +401,7 @@
                 Teacher Dashboard
             </h1>
 
-            <a href="index.html" class="logout">
+            <a href="{{ url_for('logout') }}" class="logout">
                 Logout
             </a>
 
@@ -607,29 +607,27 @@
                 <div class="profile-box">
 
                     <div class="profile-img">
-                        T
+                        {{ teacher.name[0] }}
                     </div>
 
                     <div class="profile-details">
 
                         <h3>
-                            Teacher Name
+                            {{ teacher.name }}
                         </h3>
 
                         <p>
-                            Department : Computer Applications
+                            Department : {{ teacher.course }}
+                        </p>
+
+                         
+
+                        <p>
+                            Email :  {{ teacher.email }}
                         </p>
 
                         <p>
-                            Experience : 5 Years
-                        </p>
-
-                        <p>
-                            Email : teacher@gmail.com
-                        </p>
-
-                        <p>
-                            Phone : +91 9876543210
+                            Role : {{ teacher.role }}
                         </p>
 
                     </div>
@@ -761,7 +759,7 @@
         <table>
             <tr>
                 <th>Enrollment</th>
-                <th>Name</th>
+                <th>Batch</th>
     `;
 
     subjects.forEach(sub => {
@@ -779,7 +777,7 @@
         </td>
     `;
 
-    // 🔥 IMPORTANT PART (subject + marks pairing)
+    // IMPORTANT PART (subject + marks pairing)
     subjects.forEach(sub => {
         form += `
             <td>
