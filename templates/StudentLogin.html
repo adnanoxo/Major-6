@@ -118,7 +118,7 @@
         <img src="{{ url_for ('static', filename='images/logosai.jpg')}}" alt="University Logo">
     </div>
 
-    <h2>Sign In</h2>
+    <h2>Sign In (Student)</h2>
     <p style="font-size:13px;color:#ddd;margin-bottom:15px;">
         * ID and Password are provided by Admin or sent to your registered email.
     </p>
@@ -164,7 +164,28 @@
         +91-7461073942, +91-9050565535, +91-6287090506,<br>
         +91-7280800504, +91-7280800502</p>
     </div>
+  
 </div>
+{% if show_error %}
+<script>
+    window.onload = function() {
+        document.getElementById("successModal").style.display = "block";
+    }
+    
+</script>
+{% endif %}
+    
+</div>
+
+<!-- The Modal (Back to a clean display: none style to satisfy VS Code) -->
+<div  id="successModal" style="display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); backdrop-filter: blur(5px);">
+    <div style="background: #ffffff; color: #333; margin: 15% auto; padding: 30px; border-radius: 15px; width: 350px; text-align: center; box-shadow: 0 5px 25px rgba(0,0,0,0.2);">
+        <div style="font-size: 50px; color: #2ecc71; margin-bottom: 15px;">❌</div>
+        <h2 style="margin: 0; color: #3206fb;">Wrong enrollment or password</h2>
+        <p style="color: #666; margin: 15px 0;">Please Try Again</p>
+
+        <a href="{{url_for('stdlogin')}}"  style="background: #3206fb; color: white; border: none; padding: 10px 30px; border-radius: 5px; cursor: pointer; font-weight: 600;">OK</button>
+        </div>
 
 </body>
 </html>

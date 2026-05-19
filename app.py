@@ -8,7 +8,7 @@ app.secret_key = "aatish_secret_key"
 db = mysql.connector.connect(
     host='localhost',
     user='root',
-    password='0044',
+    password='aatish2004',
     database='major6',
     port = '3305'
 )
@@ -67,17 +67,58 @@ def login():
             if role == "student":
                   return redirect(url_for('stdash'))
 
-            elif role == "teacher":
-                return redirect(url_for('thdash'))
                 
             else:
-                return redirect(url_for('wronglogin'))
+                return  render_template('StudentLogin.html', show_error=True)
 
         else:
-            return redirect(url_for('wronglogin'))
+            return render_template('StudentLogin.html', show_error=True)
 
     else:
-        return redirect(url_for('wronglogin'))
+        return render_template('StudentLogin.html', show_error=True)
+    
+#-----Teacher Password check------------
+@app.route('/tlogin', methods=['POST'])
+def tlogin():
+
+    enrollment = request.form.get('enrollment')
+    password = request.form.get('password')
+
+    cursor = db.cursor(dictionary=True)
+
+    sql = """
+    SELECT * FROM registration
+    WHERE enrollment = %s
+    """
+
+    cursor.execute(sql, (enrollment,))
+
+    user = cursor.fetchone()
+
+    if user:
+
+        # Match hashed password
+        if check_password_hash(
+                user['password'],
+                password
+        ):
+            role = user['role']
+            # Get role from database
+            session['enrollment'] = user['enrollment']
+            session['role'] = user['role']
+            session['name'] = user['name']
+            # Redirect according to role
+            if role == "teacher":
+                  return redirect(url_for('thdash'))
+                
+            else:
+                return  render_template('facultyLogin.html', show_error=True)
+
+        else:
+            return render_template('facultyLogin.html', show_error=True)
+
+    else:
+        return render_template('facultyLogin.html', show_error=True)
     
 #------------admin password check------------
 @app.route('/alogin', methods=['POST'])
@@ -104,19 +145,23 @@ def alogin():
                 user['password'],
                 password
         ):
-            
+            role = user['role']
             # Get role from database
             session['enrollment'] = user['enrollment']
             session['role'] = user['role']
             session['name'] = user['name']
             # Redirect according to role
-            return redirect(url_for('adash'))
+            if role == "admin":
+                   
+               return redirect(url_for('adash'))
+            else:
+                return  render_template('AdminLogin.html', show_error=True)
 
         else:
-            return redirect(url_for('wronglogin'))
+            return  render_template('AdminLogin.html', show_error=True)
 
     else:
-        return redirect(url_for('wronglogin'))
+        return render_template('AdminLogin.html', show_error=True)
 
 #-----------student registration page---------------
 @app.route('/sreg')
@@ -304,9 +349,9 @@ def result():
     return render_template('result_verification.html')
 
 # CHANGED: Re-renders 'StudentLogin.html' but injects show_error=True to trigger your popup modal
-@app.route('/wronglogin')
-def wronglogin():
-    return render_template('StudentLogin.html', show_error=True)
+#@app.route('/wronglogin')
+#def wronglogin():
+ #   return render_template('StudentLogin.html', show_error=True)
 
 #--------run app-------------   
 if __name__ == '__main__':
