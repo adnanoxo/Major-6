@@ -190,7 +190,7 @@ const ctx = document.getElementById('myChart').getContext('2d');
 new Chart(ctx, {
     type: 'bar',
     data: {
-        // Jinja2 outputs Python arrays as standardized JS array formats safely here:
+         
         labels: [{% for course in courses %}"{{ course }}"{% if not loop.last %}, {% endif %}{% endfor %}],
         datasets: [{
             label: 'Registered Students Count',
@@ -209,7 +209,7 @@ new Chart(ctx, {
             y: {
                 beginAtZero: true,
                 ticks: {
-                    stepSize: 1 // Forces clean incremental numbers for counting entries
+                    stepSize: 1 
                 }
             }
         }
