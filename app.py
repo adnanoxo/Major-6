@@ -8,7 +8,7 @@ app.secret_key = "aatish_secret_key"
 db = mysql.connector.connect(
     host='localhost',
     user='root',
-    password='aatish2004',
+    password='0044',
     database='major6',
     port = '3305'
 )

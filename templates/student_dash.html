@@ -169,6 +169,46 @@
             border: none;
         }
 
+        /* NEW PROFILE SECTION STYLING */
+        .profile-box {
+            display: flex;
+            gap: 35px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .profile-img {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #f4c404, #fddf02);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #2e2e2e;
+            font-size: 48px;
+            font-weight: bold;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .profile-details h3 {
+            color: #3206fb;
+            margin-bottom: 12px;
+            font-size: 30px;
+            font-weight: 700;
+        }
+
+        .profile-details p {
+            margin-bottom: 10px;
+            color: #555;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .profile-details strong {
+            color: #2e2e2e;
+        }
+
         /* Responsive Design */
         @media(max-width:900px){
             body {
@@ -196,24 +236,21 @@
 
 <body>
 
-    <!-- Sidebar with exactly 3 navigation paths -->
     <div class="sidebar">
-        <h2>ERP Portal</h2>
+        <h2>Student Panel</h2>
         <a href="#" class="active" onclick="showSection('dashboard', this)">Dashboard</a>
         <a href="{{ url_for('result') }}" target="content-frame" onclick="showIframeSection(this)">Academic Result</a>
+        <a href="#" onclick="showSection('profile', this)">My Profile</a>
         <a href="#" onclick="showSection('help', this)">Help</a>
     </div>
 
-    <!-- Main Content Window -->
     <div class="main">
         
-        <!-- Header Section -->
         <div class="header">
-            <h1 id="page-title">Welcome Back Student</h1>
+            <h1 id="page-title">Student Dashboard</h1>
             <a href="{{ url_for('logout') }}" class="logout">Logout</a>
         </div>
 
-        <!-- Dashboard Section -->
         <div id="dashboard" class="section active-section">
             <div class="card-container">
                 <div class="card"><h3>Attendance Rate</h3><p>92%</p></div>
@@ -229,25 +266,40 @@
             </div>
         </div>
 
-        <!-- External Content Section (Iframe) -->
         <div id="iframe-container" class="section">
             <iframe name="content-frame"></iframe>
         </div>
 
-        <!-- Help Section -->
-<div id="help" class="section">
-    <div class="card" style="background: rgba(0, 0, 0, 0.25); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1);">
-        <h3 style="color: #fddf02;">Help & Support</h3>
-        <p style="font-size: 16px; color: #fff; margin-top: 10px; opacity: 0.9;">
-            Contact your college administration for ERP related issues.
-        </p>
-    </div>
-</div>
+        <div id="profile" class="section">
+            <div class="card">
+                <div class="profile-box">
+                    <div class="profile-img">
+                        {{ student.name[0] }}
+                    </div>
+                    <div class="profile-details">
+                        <h3>{{ student.name }}</h3>
+                        <p><strong>Enrollment No :</strong> {{ student.enrollment }}</p>
+                        <p><strong>Registered Email :</strong> {{ student.email }}</p>
+                        
+                        <p><strong>Account Role :</strong> Student</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="help" class="section">
+            <div class="card" style="background: rgba(0, 0, 0, 0.25); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1);">
+                <h3 style="color: #fddf02;">Help & Support</h3>
+                <p style="font-size: 16px; color: #fff; margin-top: 10px; opacity: 0.9;">
+                    Contact your college administration for ERP related issues.
+                </p>
+            </div>
+        </div>
 
     </div>
 
     <script>
-        // Function for standard internal template views (Dashboard / Help)
+        // Function for standard internal template views (Dashboard / Profile / Help)
         function showSection(sectionId, element) {
             document.querySelectorAll('.section').forEach(s => s.classList.remove("active-section"));
             document.getElementById(sectionId).classList.add("active-section");
@@ -257,6 +309,7 @@
 
             const titles = { 
                 dashboard: "Student Dashboard", 
+                profile: "Student Profile",
                 help: "Help & Support" 
             };
             document.getElementById("page-title").innerText = titles[sectionId];

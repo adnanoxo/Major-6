@@ -106,6 +106,38 @@ th {
     display: flex;
     justify-content: space-between;
 }
+
+/* BACK BUTTON STYLE */
+.back-btn-container {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.back-btn {
+    font-family: 'Poppins', sans-serif;
+    background-color: #3b3b3b;
+    color: white;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.3s ease;
+}
+
+.back-btn:hover {
+    background-color: #555555;
+}
+
+/* Hide button when printing the marksheet */
+@media print {
+    .back-btn-container {
+        display: none;
+    }
+}
+
 </style>
 
 </head>
@@ -183,6 +215,14 @@ th {
             Website: www.sainathuniversity.com
         </div>
     </div>
+
+    <div class="back-btn-container">
+        <button class="back-btn" onclick="window.close();">← Back to Dashboard</button>
+    </div>
+
+</div>
+
+
 
 </div>
 
