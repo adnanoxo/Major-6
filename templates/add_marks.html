@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ERP Form</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            background-image: url('/static/img.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            color: #333;
+        }
+
+        form {
+            max-width: 850px;
+            margin: 50px auto;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+
+        table {
+            width: 100%;
+            border-spacing: 0 12px;
+        }
+
+        td {
+            padding: 10px 5px;
+            vertical-align: top;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        input[type="file"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 8px 10px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        input[type="radio"],
+        input[type="checkbox"] {
+            margin-right: 8px;
+        }
+
+        .form-actions {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        input[type="submit"],
+        input[type="reset"],
+        input[type="button"] {
+            background-color: #6a11cb;
+            color: white;
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+
+        input[type="submit"]:hover,
+        input[type="reset"]:hover,
+        input[type="button"]:hover {
+            background-color: #2575fc;
+        }
+
+        .top-links {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .rainbow-link {
+            font-size: 16px;
+            text-decoration: none;
+            color: #6a11cb;
+            font-weight: bold;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+        }
+
+        .rainbow-link:hover {
+            background: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .declaration {
+            display: flex;
+            align-items: center;
+        }
+
+        .declaration label {
+            font-size: 14px;
+            margin-left: 8px;
+        }
+
+        h2{
+            text-align: center;
+            font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        .section-divider {
+    border: none;
+    border-top: 2px solid #ccc;
+    margin: 30px 0 20px 0;
+}
+
+    </style>
+</head>
+<body>
+    <form name="frm1" method="POST" enctype="multipart/form-data" action="{{ url_for('erp_form') }}">
+        <div class="top-links">  <img src="{{ url_for('static', filename='images/logo.png') }}" width="8%" height="8%">--------------------
+            <a href="{{ url_for('dashboard') }}" class="rainbow-link">Back to Dashboard</a> |
+            <a href="{{ url_for('register') }}" class="rainbow-link">Register Here</a> |
+            <a href="{{ url_for('logout') }}" class="rainbow-link">Logout</a>--------------------
+             <img src="{{ url_for('static', filename='images/logo.png') }}" width="8%" height="8%">
+        </div>
+
+        <h2>ERP FORM</h2>
+        <table style="font-size: 20px;">
+            <tr>
+                <td>Choose photo:</td>
+                <td colspan="2"><input type="file" name="photo" accept="image/*" required></td>
+            </tr>
+            <tr>
+    <td colspan="2"><hr class="section-divider"></td>
+</tr>
+
+            <tr><td>First Name:</td><td colspan="2"><input type="text" name="Fname" maxlength="10" required></td></tr>
+            <tr><td>Middle Name:</td><td colspan="2"><input type="text" name="Mname" maxlength="10"></td></tr>
+            <tr><td>Last Name:</td><td colspan="2"><input type="text" name="Lname" maxlength="10"></td></tr>
+            <tr><td>Father's Name:</td><td colspan="2"><input type="text" name="Ftname" maxlength="30" required></td></tr>
+            <tr><td>Father's Occupation:</td>
+                <td colspan="2">
+                    <select name="Occupation" required>
+                        <option disabled selected>---select---</option>
+                        <option>Government Job</option>
+                        <option>Private Job</option>
+                        <option>Others</option>
+                    </select>
+                </td>
+            </tr>
+            <tr><td>Mother's Name:</td><td colspan="2"><input type="text" name="Mtname" maxlength="30" required></td></tr>
+            <tr><td>Mother's Occupation:</td>
+                <td colspan="2">
+                    <select name="Occ" required>
+                        <option disabled selected>---select---</option>
+                        <option>Government Job</option>
+                        <option>Private Job</option>
+                        <option>Others</option>
+                    </select>
+                </td>
+            </tr>
+            <tr><td>Date Of Birth:</td><td colspan="2"><input type="date" name="DOB" required></td></tr>
+            <tr><td>Gender:</td>
+                <td colspan="2">
+                    <input type="radio" name="Gender" value="Male" required> Male
+                    <input type="radio" name="Gender" value="Female"> Female
+                    <input type="radio" name="Gender" value="Others"> Others
+                </td>
+            </tr>
+            <tr><td>Highest Qualification:</td>
+                <td colspan="2">
+                    <select name="qualification" required>
+                        <option disabled selected>---select---</option>
+                        <option>Matriculate</option>
+                        <option>Intermediate</option>
+                        <option>Graduation</option>
+                        <option>Post Graduation</option>
+                    </select>
+                </td>
+            </tr>
+            <tr><td>Category:</td>
+                <td colspan="2">
+                    <input type="radio" name="Cat" value="Gen"> General
+                    <input type="radio" name="Cat" value="obc"> OBC
+                    <input type="radio" name="Cat" value="st/sc"> ST/SC
+                </td>
+            </tr>
+            <tr><td>Annual Family Income:</td>
+                <td colspan="2">
+                    <select name="inc" required>
+                        <option disabled selected>---select---</option>
+                        <option>Less Than One Lac</option>
+                        <option>One Lac</option>
+                        <option>More Than One Lac</option>
+                    </select>
+                </td>
+            </tr>
+            <tr><td>Religion:</td>
+                <td colspan="2">
+                    <select name="Rlg" required>
+                        <option disabled selected>---select---</option>
+                        <option>Islam</option>
+                        <option>Hinduism</option>
+                        <option>Christianity</option>
+                        <option>Others</option>
+                    </select>
+                </td>
+            </tr>
+            <tr><td>Contact No:</td>
+                <td colspan="2"><input type="text" name="PhNo" pattern="[0-9]{10}" maxlength="10" required placeholder="10-digit number"></td>
+            </tr>
+            <tr><td>E-mail:</td>
+                <td colspan="2"><input type="text" name="emailUser" placeholder="yourname" maxlength="30" required> @gmail.com</td>
+            </tr>
+            <tr><td>Pincode:</td><td colspan="2"><input type="text" name="P.code" maxlength="10"></td></tr>
+            <tr><td>Address:</td><td colspan="2"><textarea name="Add" rows="3" required></textarea></td></tr>
+            <tr><td>Permanent Address:</td><td colspan="2"><textarea name="P.add" rows="3" required></textarea></td></tr>
+            <tr><td>Upload Caste Certificate:</td><td colspan="2"><input type="file" name="cast_cer" accept=".pdf" required></td></tr>
+            <tr><td>Upload Residential Certificate:</td><td colspan="2"><input type="file" name="res_cer" accept=".pdf" required></td></tr>
+            <tr><td>Upload Income Certificate:</td><td colspan="2"><input type="file" name="incm_cer" accept=".pdf" required></td></tr>
+            <tr>
+                <td>Declaration:</td>
+                <td colspan="2" class="declaration">
+                    <input type="checkbox" name="declaration" required>
+                    <label>I hereby declare that the above information is true.</label>
+                </td>
+            </tr>
+        </table>
+
+        <div class="form-actions">
+            <input type="reset" value="Reset">
+            <input type="submit" value="Submit">
+            <input type="button" value="Payment">
+        </div>
+    </form>
+</body>
+</html>

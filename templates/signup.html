@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            display: flex;
+            height: 100vh;
+        }
+
+        .left-panel, .right-panel {
+            width: 50%;
+            padding: 60px;
+        }
+
+        .left-panel {
+            background-color: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .left-panel h2 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            color: #4A148C;
+        }
+
+        .left-panel p {
+            color: #6c757d;
+            margin-bottom: 30px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin: 10px 0 5px;
+            font-weight: 600;
+        }
+
+        input {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #6A1B9A;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #4A148C;
+        }
+
+        .right-panel {
+            background: linear-gradient(135deg, #8e44ad, #6a1b9a);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .right-panel img {
+            width: 60%;
+            max-width: 300px;
+        }
+
+        .right-panel h3 {
+            margin-top: 20px;
+            font-size: 22px;
+        }
+
+        .right-panel p {
+            font-size: 14px;
+            margin-top: 10px;
+            max-width: 300px;
+        }
+
+        .login-link {
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .login-link a {
+            color: #6A1B9A;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="left-panel">
+        <h2>Create an Account</h2>
+        <p>Register to get full access to the ERP Form Portal</p>
+        <form method="POST">
+            <label for="name">Name</label>
+            <input type="text" name="name" id="name" required>
+
+            <label for="email">Email</label>
+            <input type="email" name="email" id="email" required>
+
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password" required>
+
+            <button type="submit">Sign Up</button>
+        </form>
+        <div class="login-link">
+            Already have an account? <a href="/login">Log in</a>
+        </div>
+    </div>
+    <div class="right-panel">
+        <img src="https://cdn-icons-png.flaticon.com/512/711/711769.png" alt="Register Illustration">
+        <h3>Access Student ERP Services</h3>
+        <p>By registering, you can fill and manage your ERP forms, update your info, and more.</p>
+    </div>
+</body>
+</html>
