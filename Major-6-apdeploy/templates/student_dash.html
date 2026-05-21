@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student ERP Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(to right, #3206fb, #42bae9);
+            color: white;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 240px;
+            height: 100vh;
+            background: #2e2e2e;
+            padding: 20px;
+            position: fixed;
+            left: 0;
+            top: 0;
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .sidebar a {
+            display: block;
+            color: #fddf02;
+            text-decoration: none;
+            margin: 12px 0;
+            padding: 14px;
+            border-radius: 10px;
+            transition: 0.3s;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .sidebar a:hover,
+        .sidebar a.active {
+            background: #f4c404;
+            color: white;
+            transform: translateX(5px);
+            box-shadow: 0 0 18px rgba(253, 223, 2, 0.4);
+        }
+
+        /* Main Content */
+        .main {
+            margin-left: 270px;
+            padding: 30px;
+            width: calc(100% - 270px);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 25px;
+            background: rgba(0, 0, 0, 0.25);
+            backdrop-filter: blur(12px);
+            border-radius: 15px;
+            margin-bottom: 30px;
+            position: sticky;
+            top: 20px;
+            z-index: 1000;
+        }
+
+        .header h1 {
+            font-size: 28px;
+        }
+
+        .logout {
+            background: #ff815e;
+            padding: 10px 18px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: white;
+            font-weight: 600;
+        }
+
+        /* Sections */
+        .section {
+            display: none;
+        }
+
+        .active-section {
+            display: block;
+        }
+
+        /* Cards */
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            color: #333;
+            padding: 25px;
+            border-radius: 18px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .card h3 {
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            font-size: 28px;
+            font-weight: bold;
+            color: #3206fb;
+        }
+
+        /* Table */
+        .erp-table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+            background: white;
+            color: #333;
+            border-radius: 14px;
+            overflow: hidden;
+        }
+
+        .erp-table th {
+            background: #f4c404;
+            color: black;
+            padding: 15px;
+            text-align: left;
+        }
+
+        .erp-table td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        /* Iframe Styling */
+        #iframe-container {
+            width: 100%;
+            height: 75vh;
+            border-radius: 15px;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* NEW PROFILE SECTION STYLING */
+        .profile-box {
+            display: flex;
+            gap: 35px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .profile-img {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #f4c404, #fddf02);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #2e2e2e;
+            font-size: 48px;
+            font-weight: bold;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .profile-details h3 {
+            color: #3206fb;
+            margin-bottom: 12px;
+            font-size: 30px;
+            font-weight: 700;
+        }
+
+        .profile-details p {
+            margin-bottom: 10px;
+            color: #555;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .profile-details strong {
+            color: #2e2e2e;
+        }
+
+        /* Responsive Design */
+        @media(max-width:900px){
+            body {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+            }
+
+            .main {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .erp-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="sidebar">
+        <h2>Student Panel</h2>
+        <a href="#" class="active" onclick="showSection('dashboard', this)">Dashboard</a>
+        <a href="{{ url_for('result') }}" target="content-frame" onclick="showIframeSection(this)">Academic Result</a>
+        <a href="#" onclick="showSection('profile', this)">My Profile</a>
+        <a href="#" onclick="showSection('help', this)">Help</a>
+    </div>
+
+    <div class="main">
+        
+        <div class="header">
+            <h1 id="page-title">Student Dashboard</h1>
+            <a href="{{ url_for('logout') }}" class="logout">Logout</a>
+        </div>
+
+        <div id="dashboard" class="section active-section">
+            <div class="card-container">
+                <div class="card"><h3>Attendance Rate</h3><p>92%</p></div>
+                <div class="card"><h3>Current CGPA</h3><p>8.75</p></div>
+                <div class="card"><h3>Total Subjects</h3><p>6</p></div>
+            </div>
+            
+            <div class="card" style="margin-top:30px;">
+                <h3 style="margin-bottom:20px;">Semester-wise Performance</h3>
+                <div style="height:250px;">
+                    <canvas id="performanceChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div id="iframe-container" class="section">
+            <iframe name="content-frame"></iframe>
+        </div>
+
+        <div id="profile" class="section">
+            <div class="card">
+                <div class="profile-box">
+                    <div class="profile-img">
+                        {{ student.name[0] }}
+                    </div>
+                    <div class="profile-details">
+                        <h3>{{ student.name }}</h3>
+                        <p><strong>Enrollment No :</strong> {{ student.enrollment }}</p>
+                        <p><strong>Registered Email :</strong> {{ student.email }}</p>
+                        
+                        <p><strong>Role :</strong> Student</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="help" class="section">
+            <div class="card" style="background: rgba(0, 0, 0, 0.25); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1);">
+                <h3 style="color: #fddf02;">Help & Support</h3>
+                <p style="font-size: 16px; color: #fff; margin-top: 10px; opacity: 0.9;">
+                    Contact your college administration for ERP related issues.
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Function for standard internal template views (Dashboard / Profile / Help)
+        function showSection(sectionId, element) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove("active-section"));
+            document.getElementById(sectionId).classList.add("active-section");
+
+            document.querySelectorAll('.sidebar a').forEach(link => link.classList.remove("active"));
+            element.classList.add("active");
+
+            const titles = { 
+                dashboard: "Student Dashboard", 
+                profile: "Student Profile",
+                help: "Help & Support" 
+            };
+            document.getElementById("page-title").innerText = titles[sectionId];
+        }
+
+        // Function tailored for handling dynamic iframe context routing
+        function showIframeSection(element) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove("active-section"));
+            document.getElementById('iframe-container').classList.add("active-section");
+
+            document.querySelectorAll('.sidebar a').forEach(link => link.classList.remove("active"));
+            element.classList.add("active");
+
+            document.getElementById("page-title").innerText = "Academic Results";
+        }
+
+        /* Performance Chart Setup */
+        const ctx = document.getElementById('performanceChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Sem 1', 'Sem 2', 'Sem 3', 'Sem 4'],
+                datasets: [{
+                    label: 'GPA Score',
+                    data: [7.5, 8.1, 8.3, 8.75],
+                    borderColor: '#3206fb',
+                    backgroundColor: 'rgba(50,6,251,0.1)',
+                    fill: true,
+                    tension: 0.4,
+                    borderWidth: 3
+                }]
+            },
+            options: { 
+                responsive: true, 
+                maintainAspectRatio: false 
+            }
+        });
+    </script>
+
+</body>
+</html>

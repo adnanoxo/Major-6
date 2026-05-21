@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+    body {
+        margin: 0;
+        font-family: 'Inter', sans-serif;
+        background: linear-gradient(to right, #3206fb, #42bae9);
+        color: #fff;
+        display: flex;
+    }
+
+    /* Sidebar */
+    .sidebar {
+        width: 230px;
+        height: 100vh;
+        background: #2e2e2e;
+        padding: 20px;
+        position: fixed;
+    }
+
+    .sidebar h2 {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .sidebar a {
+        display: block;
+        color: #fddf02;
+        text-decoration: none;
+        margin: 12px 0;
+        padding: 12px;
+        border-radius: 8px;
+        transition: 0.3s;
+    }
+
+    .sidebar a:hover,
+    .sidebar .active {
+        background: #f4c404;
+        color: #fff;
+        transform: translate(5px);
+        box-shadow: 0 0 8px rgba(253,223,2,0.6),
+                    0 0 18px rgba(253,223,2,0.4); 
+    }
+
+    /* Main Container */
+    .main {
+        margin-left: 250px;
+        padding: 30px;
+        width: calc(100% - 310px);
+    }
+
+    /* Header */
+    .header {
+         display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 25px;
+        background: rgba(0, 0, 0, 0.25);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-radius: 12px;
+        border: 1px solid rgba(255,255,255,0.15);
+        position: sticky;
+        top: 20px;
+        z-index: 1000;
+        margin-bottom: 30px;
+    }
+
+    .header.scrolled {
+        background: rgba(0, 0, 0, 0.45);
+        box-shadow: 0 0 10px rgba(66,186,233,0.3),
+                    0 0 25px rgba(66,186,233,0.2),
+                    inset 0 0 8px rgba(255,255,255,0.1);
+    }
+
+    .header h1 {
+        margin: 0;
+        color: #fff;
+        text-shadow: 0 0 5px rgba(0,0,0,0.6);
+    }
+
+    .logout {
+        background: #ff815e;
+        padding: 8px 16px;
+        border-radius: 6px;
+        text-decoration: none;
+        color: white;
+    }
+
+    .logout:hover {
+        box-shadow: 0 0 10px rgba(255,94,94,0.6);
+    }
+
+    /* Dashboard Cards */
+    .card-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 20px;
+        margin-top: 30px;
+    }
+
+    .card {
+        background: #ffffff;
+        color: #333;
+        border-radius: 14px;
+        padding: 20px;
+        transition: 0.3s;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 0 20px rgba(66,186,233,0.5);
+    }
+
+    .card p {
+        font-size: 28px;
+        font-weight: bold;
+        color: #3206fb;
+        margin: 5px 0 0 0;
+    }
+
+    
+</style>
+</head>
+
+<body>
+
+<div class="sidebar">
+    <h2>Home</h2>
+    <a href="#" class="active">Dashboard</a>
+    <a href="{{ url_for('sdr') }}">Student Registration</a>
+    <a href="{{ url_for('thr') }}">Teacher Registration</a>
+    <a href="{{ url_for('records') }}">
+     Records
+</a>
+     
+</div>
+
+<div class="main">
+
+    <div class="header">
+        <h1>Hello, {{name}}</h1>
+        <a href="{{ url_for('logout') }}" class="logout">Logout</a>
+    </div>
+
+    <h2 style="margin-top: 25px;">Admin Panel</h2>
+
+    <div class="card-container">
+        <div class="card">
+            <h3>Total Students</h3>
+            <p>{{ total_students }}</p>
+        </div>
+        <div class="card">
+            <h3>Active Courses</h3>
+            <p>{{ courses|length }}</p>
+        </div>
+        
+    </div>
+
+    <div class="card" style="margin-top: 30px;">
+        <h3>Student Distribution per Course</h3>
+        <div style="position: relative; height:40vh; width:100%;">
+            <canvas id="myChart"></canvas>
+        </div>
+    </div>
+
+    
+
+<script>
+// Header Sticky Transparency Script Effect
+window.addEventListener("scroll", function () {
+    let header = document.querySelector(".header");
+    if (window.scrollY > 20) {
+        header.classList.add("scrolled");
+    } else {
+        header.classList.remove("scrolled");
+    }
+});
+
+// INITIALIZING DYNAMIC GRAPHING RENDER ENGINE VIA CHART.JS
+const ctx = document.getElementById('myChart').getContext('2d');
+
+new Chart(ctx, {
+    type: 'bar',
+    data: {
+         
+        labels: [{% for course in courses %}"{{ course }}"{% if not loop.last %}, {% endif %}{% endfor %}],
+        datasets: [{
+            label: 'Registered Students Count',
+            data: [{% for count in student_counts %}{{ count }}{% if not loop.last %}, {% endif %}{% endfor %}],
+            backgroundColor: 'rgba(0, 191, 255, 1.0)',
+            borderColor: '#42bae9',
+                
+            borderWidth: 2,
+            borderRadius: 6
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    stepSize: 1 
+                }
+            }
+        }
+    }
+});
+</script>
+
+</body>
+</html>
