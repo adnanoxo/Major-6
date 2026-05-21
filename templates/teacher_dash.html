@@ -247,13 +247,29 @@
     box-sizing: border-box;
         }
 
-        .manual-input{
-            width:50px;
-        }
+        .manual-input,
+.marks-input{
 
-        .marks-input{
-            width:50px;
-        }
+    width:100%;
+    padding:12px 14px;
+
+    border:1px solid #dcdcdc;
+    border-radius:10px;
+
+    outline:none;
+
+    font-size:14px;
+
+    background:#fff;
+
+}
+.manual-input::placeholder,
+.marks-input::placeholder{
+
+    color:#999;
+    font-size:13px;
+
+}
 
         .manual-input:focus,
         .marks-input:focus{
@@ -509,6 +525,32 @@
                         </option>
 
                     </select>
+
+    <!-- Session -->
+
+    <select id="session">
+
+        <option value="">
+            Select Session
+        </option>
+
+        <option value="2023-2026">
+            2023-2026
+        </option>
+
+        <option value="2024-2027">
+            2024-2027
+        </option>
+
+        <option value="2025-2028">
+            2025-2028
+        </option>
+
+        <option value="2026-2029">
+            2026-2029
+        </option>
+
+    </select>
 
                     <div class="subject-list"
                          id="subjectList">
