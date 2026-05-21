@@ -1,0 +1,119 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #4E71FF, #8DD8FF);
+  color: #fff;
+  
+}
+
+/* HEADER */
+header {
+  position: sticky;
+  position: -webkit-sticky;
+  top: 0;
+  z-index: 1000;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(10px);
+  padding: 10px;
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+}
+
+.links a {
+  color: white;
+  margin: 10px;
+  text-decoration: none;
+}
+
+/* BUTTONS */
+.buttons button {
+  background: #FFE565;
+  border: none;
+  padding: 8px 12px;
+  margin-left: 10px;
+  cursor: pointer;
+  border-radius: 8px ;
+}
+
+/* NOTICE BAR */
+.notice {
+  background: rgba(255,255,255,0.2);
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.scroll-text {
+  display: inline-block;
+  padding: 10px;
+  animation: scroll 15s linear infinite;
+}
+
+@keyframes scroll {
+  from { transform: translateX(100%); }
+  to { transform: translateX(-100%); }
+}
+
+/* HERO */
+.hero {
+  text-align: center;
+  padding: 40px;
+}
+
+.logo {
+  width: 500px;
+  border-radius: 8px;
+}
+
+/* CAMPUS */
+.campus {
+  text-align: center;
+  padding: 20px;
+  background: rgba(0,0,0,0.2);
+}
+
+.slider {
+  overflow: hidden;
+}
+
+.slide-track {
+  display: flex;
+  width: calc(250px * 10);
+  animation: scrollImages 20s linear infinite;
+}
+
+.slide-track img {
+  width: 250px;
+  height: 150px;
+  margin: 10px;
+  border-radius: 10px;
+}
+
+@keyframes scrollImages {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* ABOUT */
+.about {
+  text-align: center;
+  padding: 40px;
+}
+
+/* FOOTER */
+footer {
+  background: rgba(0,0,0,0.6);
+  padding: 20px;
+  text-align: center;
+}
+
+.footer-box {
+  display: flex;
+  justify-content: space-around;
+}
+
+.copy {
+  margin-top: 20px;
+}
