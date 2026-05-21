@@ -195,18 +195,9 @@ new Chart(ctx, {
         datasets: [{
             label: 'Registered Students Count',
             data: [{% for count in student_counts %}{{ count }}{% if not loop.last %}, {% endif %}{% endfor %}],
-            backgroundColor: [
-                'rgba(50, 6, 251, 0.7)',
-                'rgba(66, 186, 233, 0.7)',
-                'rgba(244, 196, 4, 0.7)',
-                'rgba(255, 129, 94, 0.7)'
-            ],
-            borderColor: [
-                '#3206fb',
-                '#42bae9',
-                '#f4c404',
-                '#ff815e'
-            ],
+            backgroundColor: 'rgba(0, 191, 255, 1.0)',
+            borderColor: '#42bae9',
+                
             borderWidth: 2,
             borderRadius: 6
         }]
