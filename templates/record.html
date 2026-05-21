@@ -2,422 +2,133 @@
 <html lang="en">
 
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>ERP Admin Dashboard</title>
+<title>Student Records</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 
 <style>
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
 body{
+    margin:0;
     font-family:'Inter',sans-serif;
-    background: linear-gradient(135deg,#1b0c53,#2575fc,#42bae9);
-    min-height:100vh;
+    background:linear-gradient(to right,#3206fb,#42bae9);
+    color:#fff;
     display:flex;
-    color:white;
 }
 
-/* SIDEBAR */
+/* Sidebar */
 
 .sidebar{
-    width:250px;
+    width:230px;
     height:100vh;
+    background:#2e2e2e;
+    padding:20px;
     position:fixed;
-    top:0;
-    left:0;
-
-    background:rgba(0,0,0,0.35);
-    backdrop-filter:blur(14px);
-
-    padding:25px 18px;
-
-    border-right:1px solid rgba(255,255,255,0.1);
-
-    box-shadow:0 0 20px rgba(0,0,0,0.2);
 }
 
-.logo{
+.sidebar h2{
     text-align:center;
-    margin-bottom:40px;
-}
-
-.logo h2{
-    font-size:28px;
-    color:#fff;
-}
-
-.logo span{
-    color:#ffd700;
+    margin-bottom:30px;
 }
 
 .sidebar a{
-    display:flex;
-    align-items:center;
-    gap:12px;
-
+    display:block;
+    color:#fddf02;
     text-decoration:none;
-    color:#fff;
-
-    padding:14px 18px;
-    margin-bottom:15px;
-
-    border-radius:12px;
-
+    margin:12px 0;
+    padding:12px;
+    border-radius:8px;
     transition:0.3s;
 }
 
 .sidebar a:hover,
 .sidebar .active{
-    background:linear-gradient(to right,#ffd700,#ffb700);
-    color:#111;
-
-    transform:translateX(6px);
-
-    box-shadow:
-    0 0 15px rgba(255,215,0,0.4);
+    background:#f4c404;
+    color:#fff;
+    transform:translate(5px);
 }
 
-/* MAIN */
+/* Main */
 
 .main{
     margin-left:250px;
-    width:100%;
     padding:30px;
+    width:100%;
 }
 
-/* HEADER */
+/* Header */
 
 .header{
     display:flex;
     justify-content:space-between;
     align-items:center;
-
-    background:rgba(255,255,255,0.08);
-
-    backdrop-filter:blur(10px);
-
-    border:1px solid rgba(255,255,255,0.1);
-
     padding:20px 25px;
-
-    border-radius:20px;
-
-    box-shadow:
-    0 0 20px rgba(0,0,0,0.15);
+    background:rgba(0,0,0,0.25);
+    backdrop-filter:blur(12px);
+    border-radius:12px;
+    margin-bottom:30px;
 }
 
-.header h1{
-    font-size:28px;
-}
-
-.logout-btn{
+.logout{
+    background:#ff815e;
+    padding:8px 16px;
+    border-radius:6px;
     text-decoration:none;
-    background:#ff5c5c;
     color:white;
-
-    padding:10px 18px;
-
-    border-radius:10px;
-
-    transition:0.3s;
 }
 
-.logout-btn:hover{
-    box-shadow:0 0 15px rgba(255,92,92,0.5);
-}
-
-/* CARDS */
-
-.card-container{
-    margin-top:30px;
-
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:20px;
-}
+/* Card */
 
 .card{
-    background:rgba(255,255,255,0.08);
-
-    backdrop-filter:blur(12px);
-
-    border-radius:20px;
-
+    background:white;
+    color:#333;
+    border-radius:14px;
     padding:25px;
-
-    border:1px solid rgba(255,255,255,0.08);
-
-    transition:0.3s;
 }
 
-.card:hover{
-    transform:translateY(-8px);
+/* Search */
 
-    box-shadow:
-    0 0 20px rgba(66,186,233,0.3);
+.search-box{
+    margin-bottom:20px;
 }
-
-.card h3{
-    font-size:18px;
-    margin-bottom:10px;
-}
-
-.card p{
-    font-size:32px;
-    font-weight:700;
-    color:#ffd700;
-}
-
-/* CHART */
-
-.chart-box{
-    margin-top:35px;
-
-    background:rgba(255,255,255,0.08);
-
-    padding:25px;
-
-    border-radius:20px;
-
-    backdrop-filter:blur(12px);
-
-    border:1px solid rgba(255,255,255,0.1);
-}
-
-/* RECORD SECTION */
-
-.record-section{
-    margin-top:35px;
-
-    background:rgba(255,255,255,0.08);
-
-    backdrop-filter:blur(12px);
-
-    padding:25px;
-
-    border-radius:20px;
-
-    border:1px solid rgba(255,255,255,0.1);
-}
-
-/* TOP BAR */
-
-.record-top{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    flex-wrap:wrap;
-    gap:15px;
-
-    margin-bottom:25px;
-}
-
-.record-top h2{
-    font-size:24px;
-}
-
-/* SEARCH */
 
 .search-box input{
-    width:260px;
-
-    padding:12px 15px;
-
+    width:300px;
+    padding:14px;
     border:none;
+    border-radius:10px;
+    background:#eef3ff;
     outline:none;
-
-    border-radius:12px;
-
-    background:rgba(255,255,255,0.12);
-
-    color:white;
 }
 
-.search-box input::placeholder{
-    color:rgba(255,255,255,0.7);
-}
+/* Table */
 
-/* FILTERS */
-
-.filters{
-    display:flex;
-    gap:15px;
-    flex-wrap:wrap;
-}
-
-.filters select{
-    padding:12px 15px;
-
-    border:none;
-    outline:none;
-
-    border-radius:12px;
-
-    background:rgba(255,255,255,0.12);
-
-    color:white;
-
-    cursor:pointer;
-}
-
-.filters select option{
-    color:black;
-}
-
-/* TABLE */
-
-.table-box{
-    overflow-x:auto;
-}
-
-.record-table{
+table{
     width:100%;
     border-collapse:collapse;
 }
 
-.record-table thead{
-    background:linear-gradient(to right,#ffd700,#ffb700);
-}
-
-.record-table th{
-    padding:16px;
-    color:black;
-    text-align:left;
-}
-
-.record-table td{
-    padding:16px;
+table th{
+    background:#3206fb;
     color:white;
+    padding:15px;
 }
 
-.record-table tbody tr{
-    background:rgba(255,255,255,0.04);
-
-    transition:0.3s;
+table td{
+    padding:14px;
+    border-bottom:1px solid #ddd;
 }
 
-.record-table tbody tr:nth-child(even){
-    background:rgba(255,255,255,0.07);
+table tr:nth-child(even){
+    background:#f7fbff;
 }
 
-.record-table tbody tr:hover{
-    background:rgba(255,255,255,0.12);
-}
-
-/* STATUS */
-
-.status{
-    padding:7px 14px;
-    border-radius:30px;
-    font-size:13px;
-    font-weight:600;
-}
-
-.active{
-    background:rgba(0,255,128,0.15);
-    color:#00ff9d;
-}
-
-.pending{
-    background:rgba(255,193,7,0.15);
-    color:#ffd700;
-}
-
-/* ROLE */
-
-.role{
-    padding:7px 14px;
-    border-radius:30px;
-    font-size:13px;
-    font-weight:600;
-}
-
-.student{
-    background:rgba(66,186,233,0.15);
-    color:#42bae9;
-}
-
-.teacher{
-    background:rgba(255,0,153,0.15);
-    color:#ff4dc4;
-}
-
-.admin{
-    background:rgba(255,94,94,0.15);
-    color:#ff7b7b;
-}
-
-/* ACTION BUTTONS */
-
-.action-btn{
-    text-decoration:none;
-
-    padding:9px 14px;
-
-    border-radius:10px;
-
-    color:white;
-
-    font-size:13px;
-
-    margin-right:8px;
-
-    transition:0.3s;
-}
-
-.edit-btn{
-    background:#2575fc;
-}
-
-.delete-btn{
-    background:#ff5c5c;
-}
-
-.action-btn:hover{
-    transform:scale(1.05);
-
-    box-shadow:
-    0 0 15px rgba(255,255,255,0.2);
-}
-
-/* RESPONSIVE */
-
-@media(max-width:900px){
-
-    .sidebar{
-        width:80px;
-    }
-
-    .sidebar a{
-        justify-content:center;
-    }
-
-    .sidebar a span{
-        display:none;
-    }
-
-    .logo h2{
-        font-size:18px;
-    }
-
-    .main{
-        margin-left:80px;
-    }
-
-    .record-top{
-        flex-direction:column;
-        align-items:flex-start;
-    }
+table tr:hover{
+    background:#eef3ff;
 }
 
 </style>
@@ -426,218 +137,109 @@ body{
 
 <body>
 
-<!-- SIDEBAR -->
+<!-- Sidebar -->
 
 <div class="sidebar">
 
-    <div class="logo">
-        <h2>ERP<span>.</span></h2>
-    </div>
+    <h2>Home</h2>
 
-    <a href="#" class="active">
-        <span>Dashboard</span>
+    <a href="{{ url_for('adash') }}">
+        Dashboard
     </a>
 
-    <a href="#">
-        <span>Student Registration</span>
+    <a href="{{ url_for('sdr') }}">
+        Student Registration
     </a>
 
-    <a href="#">
-        <span>Teacher Registration</span>
+    <a href="{{ url_for('thr') }}">
+        Teacher Registration
     </a>
 
-    <a href="#">
-        <span>Records</span>
-    </a>
-
-    <a href="#">
-        <span>Settings</span>
+    <a href="{{ url_for('records') }}" class="active">
+        Student Records
     </a>
 
 </div>
 
-<!-- MAIN -->
+<!-- Main -->
 
 <div class="main">
 
-    <!-- HEADER -->
-
     <div class="header">
 
-        <h1>Hello, {{name}}</h1>
+        <h1>Student Records</h1>
 
-        <a href="{{ url_for('logout') }}" class="logout-btn">
+        <a href="{{ url_for('logout') }}"
+           class="logout">
+
             Logout
+
         </a>
 
     </div>
 
-    <!-- CARDS -->
+    <div class="card">
 
-    <div class="card-container">
+        <!-- Search -->
 
-        <div class="card">
-            <h3>Total Students</h3>
-            <p>320</p>
-        </div>
+        <div class="search-box">
 
-        <div class="card">
-            <h3>Total Teachers</h3>
-            <p>42</p>
-        </div>
-
-        <div class="card">
-            <h3>Departments</h3>
-            <p>8</p>
-        </div>
-
-        <div class="card">
-            <h3>Pending Requests</h3>
-            <p>12</p>
-        </div>
-
-    </div>
-
-    <!-- CHART -->
-
-    <div class="chart-box">
-
-        <h2 style="margin-bottom:20px;">Student Analytics</h2>
-
-        <canvas id="myChart"></canvas>
-
-    </div>
-
-    <!-- RECORD SECTION -->
-
-    <div class="record-section">
-
-        <div class="record-top">
-
-            <h2>Registered Users</h2>
-
-            <div class="filters">
-
-                <!-- SEARCH -->
-
-                <div class="search-box">
-                    <input type="text" placeholder="Search student...">
-                </div>
-
-                <!-- ROLE SELECT -->
-
-                <select>
-                    <option value="">Select Role</option>
-                    <option>Student</option>
-                    <option>Teacher</option>
-                    <option>Admin</option>
-                </select>
-
-                <!-- STATUS -->
-
-                <select>
-                    <option value="">Status</option>
-                    <option>Active</option>
-                    <option>Pending</option>
-                </select>
-
-            </div>
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search Student..."
+                onkeyup="searchTable()"
+            >
 
         </div>
 
-        <!-- TABLE -->
+        <!-- Table -->
 
-        <div class="table-box">
+        <div style="overflow-x:auto;">
 
-            <table class="record-table">
+            <table id="studentTable">
 
-                <thead>
+                <tr>
 
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Course</th>
-                        <th>Role</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
+                    <th>Enrollment</th>
 
-                </thead>
+                    <th>Name</th>
 
-                <tbody>
+                    <th>Email</th>
 
-                    {% for user in users %}
+                    <th>Course</th>
 
-                    <tr>
+                    <th>Session</th>
 
-                        <td>{{ user.id }}</td>
+                </tr>
 
-                        <td>{{ user.name }}</td>
+                {% for student in students %}
 
-                        <td>{{ user.email }}</td>
+                <tr>
 
-                        <td>{{ user.course }}</td>
+                    <td>
+                        {{ student.enrollment }}
+                    </td>
 
-                        <td>
+                    <td>
+                        {{ student.name }}
+                    </td>
 
-                            {% if user.role == 'Student' %}
+                    <td>
+                        {{ student.email }}
+                    </td>
 
-                            <span class="role student">
-                                Student
-                            </span>
+                    <td>
+                        {{ student.course }}
+                    </td>
 
-                            {% elif user.role == 'Teacher' %}
+                    <td>
+                        2025-2026
+                    </td>
 
-                            <span class="role teacher">
-                                Teacher
-                            </span>
+                </tr>
 
-                            {% else %}
-
-                            <span class="role admin">
-                                Admin
-                            </span>
-
-                            {% endif %}
-
-                        </td>
-
-                        <td>
-
-                            {% if user.status == 'Active' %}
-
-                            <span class="status active">
-                                Active
-                            </span>
-
-                            {% else %}
-
-                            <span class="status pending">
-                                Pending
-                            </span>
-
-                            {% endif %}
-
-                        </td>
-
-                        <td>
-
-                            <a href="{{ url_for('edit_user', id=user.id) }}" class="action-btn edit-btn">
-                                Edit
-                            </a>
-
-                            <a href="{{ url_for('delete_user', id=user.id) }}" class="action-btn delete-btn">
-                                Delete
-                            </a>
-
-                        </td>
-
-                    </tr>
-
-                    {% endfor %}
-
-                </tbody>
+                {% endfor %}
 
             </table>
 
@@ -649,22 +251,38 @@ body{
 
 <script>
 
-const ctx = document.getElementById('myChart');
+function searchTable(){
 
-new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: ['BCA', 'MCA', 'BBA', 'MBA', 'B.Tech'],
-        datasets: [{
-            label: 'Students',
-            data: [120, 90, 70, 60, 140],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        responsive:true
+    let input =
+    document.getElementById("searchInput")
+    .value.toLowerCase();
+
+    let table =
+    document.getElementById("studentTable");
+
+    let tr =
+    table.getElementsByTagName("tr");
+
+    for(let i=1; i<tr.length; i++){
+
+        let text =
+        tr[i].textContent.toLowerCase();
+
+        if(text.includes(input)){
+
+            tr[i].style.display = "";
+
+        }
+
+        else{
+
+            tr[i].style.display = "none";
+
+        }
+
     }
-});
+
+}
 
 </script>
 
