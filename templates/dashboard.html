@@ -3,10 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard</title>
+<title>Admin Dashboard</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
@@ -51,53 +50,38 @@
                     0 0 18px rgba(253,223,2,0.4); 
     }
 
-    /* Main */
+    /* Main Container */
     .main {
         margin-left: 250px;
         padding: 30px;
         width: 100%;
     }
 
-    .register {
-        margin-left: 250px;
-        padding: 30px;
-        width: 100%;
-    }
-
-    /* DARK GLASS HEADER */
+    /* Header */
     .header {
         display: flex;
         justify-content: space-between;
         align-items: center;
         padding: 20px 25px;
-
-        background: rgba(0, 0, 0, 0.25); /* darker */
+        background: rgba(0, 0, 0, 0.25);
         backdrop-filter: blur(12px);
         -webkit-backdrop-filter: blur(12px);
-
         border-radius: 12px;
         border: 1px solid rgba(255,255,255,0.15);
-
         position: sticky;
         top: 0;
         z-index: 1000;
-
         transition: 0.3s;
-
         box-shadow: inset 0 0 8px rgba(255,255,255,0.1);
     }
 
-    /* Scroll Effect */
     .header.scrolled {
         background: rgba(0, 0, 0, 0.45);
-
-        box-shadow: 
-            0 0 10px rgba(66,186,233,0.3),
-            0 0 25px rgba(66,186,233,0.2),
-            inset 0 0 8px rgba(255,255,255,0.1);
+        box-shadow: 0 0 10px rgba(66,186,233,0.3),
+                    0 0 25px rgba(66,186,233,0.2),
+                    inset 0 0 8px rgba(255,255,255,0.1);
     }
 
-    /* Text fix */
     .header h1 {
         margin: 0;
         color: #fff;
@@ -116,22 +100,7 @@
         box-shadow: 0 0 10px rgba(255,94,94,0.6);
     }
 
-    .erp-btn {
-        display: inline-block;
-        margin-top: 25px;
-        padding: 12px 22px;
-        background-color: #2575fc;
-        color: white;
-        border-radius: 6px;
-        text-decoration: none;
-        font-weight: 600;
-    }
-
-    .erp-btn:hover {
-        box-shadow: 0 0 15px rgba(66,186,233,0.5);
-    }
-
-    /* Cards */
+    /* Dashboard Cards */
     .card-container {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -152,29 +121,14 @@
         box-shadow: 0 0 20px rgba(66,186,233,0.5);
     }
 
-    /* Table */
-    .erp-table {
-        width: 100%;
-        margin-top: 30px;
-        border-collapse: collapse;
-        background: #fff;
-        color: #333;
-        border-radius: 10px;
-        overflow: hidden;
+    .card p {
+        font-size: 28px;
+        font-weight: bold;
+        color: #3206fb;
+        margin: 5px 0 0 0;
     }
 
-    .erp-table th {
-        background: #f4c404;
-        color: #000;
-    }
-
-    .erp-table th, .erp-table td {
-        padding: 12px;
-    }
-
-    .erp-table tr:hover {
-        background: #f5f5f5;
-    }
+    
 </style>
 </head>
 
@@ -183,8 +137,8 @@
 <div class="sidebar">
     <h2>Home</h2>
     <a href="#" class="active">Dashboard</a>
-    <a href="{{ url_for ('sdr')}}">Student Registration</a>
-    <a href="{{ url_for ('thr')}}">Teacher Registration</a>
+    <a href="{{ url_for('sdr') }}">Student Registration</a>
+    <a href="{{ url_for('thr') }}">Teacher Registration</a>
     <a href="#">Stats</a>
     <a href="#">Support</a>
 </div>
@@ -193,57 +147,34 @@
 
     <div class="header">
         <h1>Hello, {{name}}</h1>
-        <a href="{{ url_for ('logout')}}" class="logout">Logout</a>
+        <a href="{{ url_for('logout') }}" class="logout">Logout</a>
     </div>
 
-    <h2>Admin Panel</h2>
+    <h2 style="margin-top: 25px;">Admin Panel</h2>
 
     <div class="card-container">
         <div class="card">
             <h3>Total Students</h3>
-            <p>120</p>
+            <p>{{ total_students }}</p>
         </div>
         <div class="card">
             <h3>Active Courses</h3>
-            <p>8</p>
+            <p>{{ courses|length }}</p>
         </div>
-        <div class="card">
-            <h3>Pending Requests</h3>
-            <p>5</p>
-        </div>
+        
     </div>
 
     <div class="card" style="margin-top: 30px;">
-        <h3>Student Overview</h3>
-        <canvas id="myChart"></canvas>
+        <h3>Student Distribution per Course</h3>
+        <div style="position: relative; height:40vh; width:100%;">
+            <canvas id="myChart"></canvas>
+        </div>
     </div>
 
-    <table class="erp-table">
-        <tr>
-            <th>Name</th>
-            <th>Course</th>
-            <th>Status</th>
-        </tr>
-        <tr>
-            <td>Rahul Sharma</td>
-            <td>BCA</td>
-            <td style="color: green;">Active</td>
-        </tr>
-        <tr>
-            <td>Anjali Verma</td>
-            <td>MCA</td>
-            <td style="color: orange;">Pending</td>
-        </tr>
-        <tr>
-            <td>Amit Kumar</td>
-            <td>BBA</td>
-            <td style="color: blue;">Completed</td>
-        </tr>
-    </table>
-
-</div>
+    
 
 <script>
+// Header Sticky Transparency Script Effect
 window.addEventListener("scroll", function () {
     let header = document.querySelector(".header");
     if (window.scrollY > 20) {
@@ -253,74 +184,47 @@ window.addEventListener("scroll", function () {
     }
 });
 
-const ctx = document.getElementById('myChart');
+// INITIALIZING DYNAMIC GRAPHING RENDER ENGINE VIA CHART.JS
+const ctx = document.getElementById('myChart').getContext('2d');
 
 new Chart(ctx, {
     type: 'bar',
     data: {
-        labels: ['BCA', 'MCA', 'BBA', 'MBA'],
+        // Jinja2 outputs Python arrays as standardized JS array formats safely here:
+        labels: [{% for course in courses %}"{{ course }}"{% if not loop.last %}, {% endif %}{% endfor %}],
         datasets: [{
-            label: 'Students',
-            data: [40, 25, 30, 20],
-            borderWidth: 1
+            label: 'Registered Students Count',
+            data: [{% for count in student_counts %}{{ count }}{% if not loop.last %}, {% endif %}{% endfor %}],
+            backgroundColor: [
+                'rgba(50, 6, 251, 0.7)',
+                'rgba(66, 186, 233, 0.7)',
+                'rgba(244, 196, 4, 0.7)',
+                'rgba(255, 129, 94, 0.7)'
+            ],
+            borderColor: [
+                '#3206fb',
+                '#42bae9',
+                '#f4c404',
+                '#ff815e'
+            ],
+            borderWidth: 2,
+            borderRadius: 6
         }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    stepSize: 1 // Forces clean incremental numbers for counting entries
+                }
+            }
+        }
     }
 });
 </script>
-
-<div class="register">
-
-    <div class="header">
-        <h1>Hello, {{User}}</h1>
-        <a href="index.html" class="logout">Logout</a>
-    </div>
-
-    <a href="#" class="erp-btn">Go to ERP Form</a>
-
-    <div class="card-container">
-        <div class="card">
-            <h3>Total Students</h3>
-            <p>120</p>
-        </div>
-        <div class="card">
-            <h3>Active Courses</h3>
-            <p>8</p>
-        </div>
-        <div class="card">
-            <h3>Pending Requests</h3>
-            <p>5</p>
-        </div>
-    </div>
-
-    <div class="card" style="margin-top: 30px;">
-        <h3>Student Overview</h3>
-        <canvas id="myChart"></canvas>
-    </div>
-
-    <table class="erp-table">
-        <tr>
-            <th>Name</th>
-            <th>Course</th>
-            <th>Status</th>
-        </tr>
-        <tr>
-            <td>Rahul Sharma</td>
-            <td>BCA</td>
-            <td style="color: green;">Active</td>
-        </tr>
-        <tr>
-            <td>Anjali Verma</td>
-            <td>MCA</td>
-            <td style="color: orange;">Pending</td>
-        </tr>
-        <tr>
-            <td>Amit Kumar</td>
-            <td>BBA</td>
-            <td style="color: blue;">Completed</td>
-        </tr>
-    </table>
-
-</div>
 
 </body>
 </html>
