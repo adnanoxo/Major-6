@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SAI NATH UNIVERSITY - Marksheet</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700;900&display=swap" rel="stylesheet">
+
+<style>
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #e6e2b3;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 950px;
+    margin: auto;
+    background: #fdfbd4;
+    padding: 25px;
+    border: 2px solid #333;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.header h1 {
+    font-size: 38px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    margin-bottom: 5px;
+}
+
+.header p {
+    font-size: 14px;
+}
+
+.info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.info div {
+    border: 1px solid #333;
+    padding: 10px;
+    background: #fff;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #333;
+    padding: 10px;
+    text-align: center;
+}
+
+th {
+    background: #3b3b3b;
+    color: white;
+}
+
+.pass {
+    color: green;
+    font-weight: bold;
+}
+
+.fail {
+    color: red;
+    font-weight: bold;
+}
+
+.signatures {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 50px;
+}
+
+.sign-box {
+    text-align: center;
+}
+
+.sign-line {
+    margin-top: 40px;
+    border-top: 1px solid #000;
+    width: 150px;
+}
+
+.footer {
+    margin-top: 40px;
+    font-size: 13px;
+    display: flex;
+    justify-content: space-between;
+}
+</style>
+
+</head>
+
+<body>
+
+<!-- ✅ MARKSHEET AREA -->
+<div id="marksheet">
+
+<div class="container">
+
+    <div class="header">
+        <h1>SAI NATH UNIVERSITY</h1>
+        <p>Established in 2012</p>
+    </div>
+
+    <div class="info">
+        <div><b>Enrollment No:</b> {{student.enrollment}}</div>
+        <div><b>Name:</b> {{student.name}}</div>
+        <div><b>Semester:</b> {{data[0].semester}}</div>
+        <div><b>Batch:</b> {{data[0].batch}}</div>
+    </div>
+
+    <table>
+        <tr>
+            <th>Subject</th>
+            <th>Sem {{data[0].semester}}</th>
+        </tr>
+
+        {% for row in data %}
+        <tr>
+            <td>{{row.subject}}</td>
+            <td>{{row.marks}}</td>
+        </tr>
+        {% endfor %}
+
+        <tr>
+            <th>Status</th>
+            <td class="pass">PASS</td>
+        </tr>
+    </table>
+
+    <div class="signatures">
+        <div class="sign-box">
+            <div class="sign-line"></div>
+            HOD
+        </div>
+
+        <div class="sign-box">
+            <div class="sign-line"></div>
+            Admin
+        </div>
+
+        <div class="sign-box">
+            <div class="sign-line"></div>
+            Class Teacher
+        </div>
+    </div>
+
+    <div class="footer">
+        <div>
+            Sai Nath University<br>
+            Jirawar, Chandway-Kuchu Road,<br>
+            Ormanjhi, Ranchi, Jharkhand - 835219
+        </div>
+
+        <div>
+            Email: sainathuniversity@gmail.com<br>
+            Phone: +91-7461073942<br>
+            Website: www.sainathuniversity.com
+        </div>
+    </div>
+
+</div>
+
+</div> <!-- END MARKSHEET -->
+
+<!-- ✅ BUTTONS -->
+<div style="margin-top: 20px; display: flex; gap: 10px; justify-content: center;">
+
+    <!-- Back to Dashboard -->
+    <a href="{{ url_for('stdash') }}">
+        <button style="padding:10px 20px; font-size:16px;">
+            Back to Dashboard
+        </button>
+    </a>
+
+    <!-- Download PDF -->
+    <button id="downloadBtn" style="padding:10px 20px; font-size:16px;">
+        Download PDF
+    </button>
+
+</div>
+
+<!-- ✅ PDF SCRIPT -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+
+<script>
+document.getElementById("downloadBtn").addEventListener("click", function () {
+
+    const element = document.getElementById("marksheet");
+
+    const opt = {
+        margin: 0.3,
+        filename: 'marksheet.pdf',
+        image: { type: 'jpeg', quality: 1 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+    };
+
+    html2pdf().set(opt).from(element).save();
+});
+</script>
+
+</body>
+</html>
