@@ -238,16 +238,40 @@ def thdash():
 def adash():
     enrollment = session.get('enrollment')
 
+    # Force MySQL to sync and see newly registered students immediately
+    db.commit() 
+
     cursor = db.cursor(dictionary=True)
 
-    cursor.execute(
-        "SELECT * FROM registration WHERE enrollment=%s",
-        (enrollment,)
-    )
-
+    # 1. Fetch admin profile data
+    cursor.execute("SELECT * FROM registration WHERE enrollment=%s", (enrollment,))
     admin = cursor.fetchone()
 
-    return render_template('dashboard.html', admin=admin)
+    # 2. DYNAMIC QUERY: Automatically group and count students by their exact course
+    course_query = """
+    SELECT course, COUNT(*) as student_count 
+    FROM registration 
+    WHERE role = 'student' AND course IS NOT NULL AND course != ''
+    GROUP BY course
+    """
+    cursor.execute(course_query)
+    course_results = cursor.fetchall()
+    cursor.close() 
+
+    # 3. Build the data lists dynamically
+    courses = [row['course'] for row in course_results]
+    student_counts = [row['student_count'] for row in course_results]
+    total_students = sum(student_counts)
+
+    # 4. Pass these lists to your HTML template
+    return render_template(
+        'dashboard.html', 
+        admin=admin, 
+        name=session.get('name', 'Admin'),
+        courses=courses, 
+        student_counts=student_counts,
+        total_students=total_students
+    )
  
 #-------------------Logout------------------
 @app.route('/logout')
@@ -352,7 +376,21 @@ def result():
 #@app.route('/wronglogin')
 #def wronglogin():
  #   return render_template('StudentLogin.html', show_error=True)
+@app.route('/records')
+def records():
+
+    cursor = db.cursor(dictionary=True)
+
+    cursor.execute("SELECT * FROM registration")
+
+    students = cursor.fetchall()
+
+    return render_template(
+        'record.html',
+        students=students
+    )
 
 #--------run app-------------   
+ 
 if __name__ == '__main__':
     app.run(debug=True, port=5050)

@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Student Records</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+
+body{
+    margin:0;
+    font-family:'Inter',sans-serif;
+    background:linear-gradient(to right,#3206fb,#42bae9);
+    color:#fff;
+    display:flex;
+}
+
+/* Sidebar */
+
+.sidebar{
+    width:230px;
+    height:100vh;
+    background:#2e2e2e;
+    padding:20px;
+    position:fixed;
+}
+
+.sidebar h2{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.sidebar a{
+    display:block;
+    color:#fddf02;
+    text-decoration:none;
+    margin:12px 0;
+    padding:12px;
+    border-radius:8px;
+    transition:0.3s;
+}
+
+.sidebar a:hover,
+.sidebar .active{
+    background:#f4c404;
+    color:#fff;
+    transform:translate(5px);
+}
+
+/* Main */
+
+.main{
+    margin-left:250px;
+    padding:30px;
+    width:100%;
+}
+
+/* Header */
+
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:20px 25px;
+    background:rgba(0,0,0,0.25);
+    backdrop-filter:blur(12px);
+    border-radius:12px;
+    margin-bottom:30px;
+}
+
+.logout{
+    background:#ff815e;
+    padding:8px 16px;
+    border-radius:6px;
+    text-decoration:none;
+    color:white;
+}
+
+/* Card */
+
+.card{
+    background:white;
+    color:#333;
+    border-radius:14px;
+    padding:25px;
+}
+
+/* Search */
+
+.search-box{
+    margin-bottom:20px;
+}
+
+.search-box input{
+    width:300px;
+    padding:14px;
+    border:none;
+    border-radius:10px;
+    background:#eef3ff;
+    outline:none;
+}
+
+/* Table */
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+table th{
+    background:#3206fb;
+    color:white;
+    padding:15px;
+}
+
+table td{
+    padding:14px;
+    border-bottom:1px solid #ddd;
+}
+
+table tr:nth-child(even){
+    background:#f7fbff;
+}
+
+table tr:hover{
+    background:#eef3ff;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- Sidebar -->
+
+<div class="sidebar">
+
+    <h2>Home</h2>
+
+    <a href="{{ url_for('adash') }}">
+        Dashboard
+    </a>
+
+    <a href="{{ url_for('sdr') }}">
+        Student Registration
+    </a>
+
+    <a href="{{ url_for('thr') }}">
+        Teacher Registration
+    </a>
+
+    <a href="{{ url_for('records') }}" class="active">
+        Student Records
+    </a>
+
+</div>
+
+<!-- Main -->
+
+<div class="main">
+
+    <div class="header">
+
+        <h1>Student Records</h1>
+
+        <a href="{{ url_for('logout') }}"
+           class="logout">
+
+            Logout
+
+        </a>
+
+    </div>
+
+    <div class="card">
+
+        <!-- Search -->
+
+        <div class="search-box">
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search Student..."
+                onkeyup="searchTable()"
+            >
+
+        </div>
+
+        <!-- Table -->
+
+        <div style="overflow-x:auto;">
+
+            <table id="studentTable">
+
+                <tr>
+
+                    <th>Enrollment</th>
+
+                    <th>Name</th>
+
+                    <th>Email</th>
+
+                    <th>Course</th>
+
+                    <th>Session</th>
+
+                </tr>
+
+                {% for student in students %}
+
+                <tr>
+
+                    <td>
+                        {{ student.enrollment }}
+                    </td>
+
+                    <td>
+                        {{ student.name }}
+                    </td>
+
+                    <td>
+                        {{ student.email }}
+                    </td>
+
+                    <td>
+                        {{ student.course }}
+                    </td>
+
+                    <td>
+                        2025-2026
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+function searchTable(){
+
+    let input =
+    document.getElementById("searchInput")
+    .value.toLowerCase();
+
+    let table =
+    document.getElementById("studentTable");
+
+    let tr =
+    table.getElementsByTagName("tr");
+
+    for(let i=1; i<tr.length; i++){
+
+        let text =
+        tr[i].textContent.toLowerCase();
+
+        if(text.includes(input)){
+
+            tr[i].style.display = "";
+
+        }
+
+        else{
+
+            tr[i].style.display = "none";
+
+        }
+
+    }
+
+}
+
+</script>
+
+</body>
+
+</html>
