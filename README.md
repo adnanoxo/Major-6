@@ -1,4 +1,4 @@
-## 🔐 System Authentication & Credentials
+## 🔐 Dummy System Authentication & Credentials
 
 Use the following test credentials to log into the different portals of the application:
 
