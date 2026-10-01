@@ -2,16 +2,12 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Teacher Dashboard</title>
-
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
-
         :root{
             --primary:#3206fb;
             --secondary:#42bae9;
@@ -35,7 +31,6 @@
         }
 
         /* Sidebar */
-
         .sidebar{
             width:240px;
             height:100vh;
@@ -85,7 +80,6 @@
         }
 
         /* Main */
-
         .main{
             margin-left:240px;
             width:calc(100% - 240px);
@@ -93,19 +87,18 @@
         }
 
         /* Header */
-
         .header{
             display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:20px 25px;
-    background:rgba(0,0,0,0.25);
-    backdrop-filter:blur(12px);
-    border-radius:15px;
-    margin-bottom:30px;
-    position:sticky;
-    top:20px;
-    z-index:1000;
+            justify-content:space-between;
+            align-items:center;
+            padding:20px 25px;
+            background:rgba(0,0,0,0.25);
+            backdrop-filter:blur(12px);
+            border-radius:15px;
+            margin-bottom:30px;
+            position:sticky;
+            top:20px;
+            z-index:1000;
         }
 
         .header h1{
@@ -122,7 +115,6 @@
         }
 
         /* Content */
-
         .tab-content{
             display:none;
         }
@@ -146,7 +138,6 @@
         }
 
         /* Cards */
-
         .card-grid{
             display:grid;
             grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
@@ -177,14 +168,13 @@
             line-height:1.6;
         }
 
-        /* Upload Marks */
-
+        /* Setup Main Selections Alignment */
         .top-section{
             display:flex;
-            justify-content:space-between;
+            justify-content:flex-start;
             align-items:center;
             flex-wrap:wrap;
-            gap:20px;
+            gap:15px;
             margin-bottom:25px;
         }
 
@@ -193,14 +183,18 @@
             border:none;
             border-radius:12px;
             background:#eef3ff;
+            color: #333;
             font-size:15px;
+            font-weight: 500;
             outline:none;
+            min-width: 220px;
         }
 
         .subject-list{
             display:flex;
             gap:10px;
             flex-wrap:wrap;
+            align-items: center;
         }
 
         .subject-tag{
@@ -218,6 +212,7 @@
             overflow:hidden;
             border-radius:16px;
             table-layout: fixed;
+            color: #333;
         }
 
         table th{
@@ -236,45 +231,25 @@
             overflow: hidden;
         }
 
+        table td input,
+        table td select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            outline: none;
+            text-align: center;
+        }
+        
+        table td select {
+            background: #fff;
+            min-width: auto;
+            font-size: 14px;
+            text-align-last: center;
+        }
+
         table tr:nth-child(even){
             background:#f7fbff;
-        }
-
-        .manual-input,
-        .marks-input{
-            width: 100%;
-    max-width: 100%;
-    box-sizing: border-box;
-        }
-
-        .manual-input,
-.marks-input{
-
-    width:100%;
-    padding:12px 14px;
-
-    border:1px solid #dcdcdc;
-    border-radius:10px;
-
-    outline:none;
-
-    font-size:14px;
-
-    background:#fff;
-
-}
-.manual-input::placeholder,
-.marks-input::placeholder{
-
-    color:#999;
-    font-size:13px;
-
-}
-
-        .manual-input:focus,
-        .marks-input:focus{
-            border:2px solid #0077ff;
-            background:white;
         }
 
         .row-submit{
@@ -285,10 +260,10 @@
             border-radius:30px;
             cursor:pointer;
             font-weight:600;
+            width: 100%;
         }
 
         /* Attendance */
-
         .attendance-box{
             margin-top:20px;
         }
@@ -313,7 +288,6 @@
         }
 
         /* Profile */
-
         .profile-box{
             display:flex;
             gap:30px;
@@ -347,7 +321,6 @@
         }
 
         @media(max-width:900px){
-
             body{
                 flex-direction:column;
             }
@@ -368,601 +341,253 @@
                 overflow-x:auto;
             }
         }
-
     </style>
-
 </head>
 
 <body>
 
-    <!-- Sidebar -->
-
     <div class="sidebar">
-
         <div class="logo">
-
             <h2>Teacher Panel</h2>
-
             <p>Result & Student Management</p>
-
         </div>
-
-        <a onclick="showTab('dashboard',this)" class="active">
-            Dashboard
-        </a>
-
-        <a onclick="showTab('upload',this)">
-            Upload Marks
-        </a>
-
-        <a onclick="showTab('attendance',this)">
-            Attendance
-        </a>
-
-        <a onclick="showTab('profile',this)">
-            Profile
-        </a>
-
+        <a onclick="showTab('dashboard',this)" class="active">Dashboard</a>
+        <a onclick="showTab('upload',this)">Upload Marks</a>
+        <a onclick="showTab('profile',this)">Profile</a>
     </div>
-
-    <!-- Main -->
 
     <div class="main">
 
-        <!-- Header -->
-
         <div class="header">
-
-            <h1 id="page-title">
-                Teacher Dashboard
-            </h1>
-
-            <a href="{{ url_for('logout') }}" class="logout">
-                Logout
-            </a>
-
+            <h1 id="page-title">Teacher Dashboard</h1>
+            <a href="{{ url_for('logout') }}" class="logout">Logout</a>
         </div>
-
-        <!-- Dashboard -->
 
         <div id="dashboard" class="tab-content active">
-
             <div class="container">
-
-                <div class="heading">
-                    Welcome Back Teacher 👋
-                </div>
-
+                <div class="heading">Welcome Back Teacher 👋</div>
                 <div class="card-grid">
-
                     <div class="card">
-
                         <h3>Total Students</h3>
-
-                        <p>
-                            Manage and monitor all registered students semester wise.
-                        </p>
-
+                        <p>Manage and monitor all registered students semester wise.</p>
                     </div>
-
                     <div class="card">
-
                         <h3>Upload Results</h3>
-
-                        <p>
-                            Upload marks semester wise with individual submit option.
-                        </p>
-
+                        <p>Upload marks semester wise with individual submit option.</p>
                     </div>
-
+                    
                     <div class="card">
-
-                        <h3>Attendance</h3>
-
-                        <p>
-                            Track student attendance and monitor class records easily.
-                        </p>
-
-                    </div>
-
-                    <div class="card">
-
                         <h3>Performance</h3>
-
-                        <p>
-                            Analyze performance and improve academic progress efficiently.
-                        </p>
-
+                        <p>Analyze performance and improve academic progress efficiently.</p>
                     </div>
-
                 </div>
-
             </div>
-
         </div>
 
-        <!-- Upload Marks -->
-
         <div id="upload" class="tab-content">
-
             <div class="container">
-
-                <div class="heading">
-                    Semester Marks Entry
-                </div>
+                <div class="heading">Semester Marks Entry</div>
 
                 <div class="top-section">
-
-                    <select id="semester"
-                            onchange="generateTable()">
-                      
-                        <option value="">
-                            Select Semester
-                        </option>
-
-                        <option value="1">
-                            Semester 1
-                        </option>
-
-                        <option value="2">
-                            Semester 2
-                        </option>
-
-                        <option value="3">
-                            Semester 3
-                        </option>
-
-                        <option value="4">
-                            Semester 4
-                        </option>
-
-                        <option value="5">
-                            Semester 5
-                        </option>
-
-                        <option value="6">
-                            Semester 6
-                        </option>
-
+                    <select id="semester" onchange="generateTable()">
+                        <option value="">Select Semester</option>
+                        <option value="1">Semester 1</option>
+                        <option value="2">Semester 2</option>
+                        <option value="3">Semester 3</option>
+                        <option value="4">Semester 4</option>
+                        <option value="5">Semester 5</option>
+                        <option value="6">Semester 6</option>
                     </select>
 
-    <!-- Session -->
+                    <select id="batch" onchange="generateTable()">
+                        <option value="">Select Batch</option>
+                        <option value="2023-2026">2023-2026</option>
+                        <option value="2024-2027">2024-2027</option>
+                        <option value="2025-2028">2025-2028</option>
+                        <option value="2024-2026">2024-2026</option>
+                        <option value="2025-2027">2025-2027</option>
+                    </select>
 
-    <select id="session">
-
-        <option value="">
-            Select Session
-        </option>
-
-        <option value="2023-2026">
-            2023-2026
-        </option>
-
-        <option value="2024-2027">
-            2024-2027
-        </option>
-
-        <option value="2025-2028">
-            2025-2028
-        </option>
-
-        <option value="2026-2029">
-            2026-2029
-        </option>
-
-    </select>
-
-                    <div class="subject-list"
-                         id="subjectList">
-                    </div>
-
+                    <div class="subject-list" id="subjectList"></div>
                 </div>
 
                 <div id="tableContainer">
-
-                    <p style="text-align:center;color:#666;">
-                        Please select semester.
-                    </p>
-
+                    <p style="text-align:center;color:#666;">Please select both semester and batch to open sheet.</p>
                 </div>
-
             </div>
-
         </div>
 
-        <!-- Attendance -->
-
-        <div id="attendance" class="tab-content">
-
-            <div class="container">
-
-                <div class="heading">
-                    Attendance Management
-                </div>
-
-                <div class="attendance-box">
-
-                    <div class="attendance-item">
-
-                        <div>
-
-                            <h3>BCA Semester 3</h3>
-
-                            <p>Present Students : 42</p>
-
-                        </div>
-
-                        <div class="badge">
-                            Active
-                        </div>
-
-                    </div>
-
-                    <div class="attendance-item">
-
-                        <div>
-
-                            <h3>BCA Semester 4</h3>
-
-                            <p>Present Students : 39</p>
-
-                        </div>
-
-                        <div class="badge">
-                            Active
-                        </div>
-
-                    </div>
-
-                    <div class="attendance-item">
-
-                        <div>
-
-                            <h3>BCA Semester 5</h3>
-
-                            <p>Present Students : 36</p>
-
-                        </div>
-
-                        <div class="badge">
-                            Active
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <!-- Profile -->
-
+        
         <div id="profile" class="tab-content">
-
             <div class="container">
-
-                <div class="heading">
-                    Teacher Profile
-                </div>
-
+                <div class="heading">Teacher Profile</div>
                 <div class="profile-box">
-
-                    <div class="profile-img">
-                        {{ teacher.name[0] }}
-                    </div>
-
+                    <div class="profile-img">{{ teacher.name[0] }}</div>
                     <div class="profile-details">
-
-                        <h3>
-                            {{ teacher.name }}
-                        </h3>
-
-                        <p>
-                            Department : {{ teacher.course }}
-                        </p>
-
-                         
-
-                        <p>
-                            Email :  {{ teacher.email }}
-                        </p>
-
-                        <p>
-                            Role : {{ teacher.role }}
-                        </p>
-
+                        <h3>{{ teacher.name }}</h3>
+                        <p>Department : {{ teacher.course }}</p>
+                        <p>Email :  {{ teacher.email }}</p>
+                        <p>Role : {{ teacher.role }}</p>
                     </div>
-
                 </div>
-
             </div>
-
         </div>
 
     </div>
 
 <script>
-
-    // Sidebar Function
-
-    function showTab(tabId,element){
-
-        document.querySelectorAll('.tab-content')
-        .forEach(tab=>{
-
+    // Tab Controller
+    function showTab(tabId, element){
+        document.querySelectorAll('.tab-content').forEach(tab => {
             tab.classList.remove('active');
-
         });
-
-        document.querySelectorAll('.sidebar a')
-        .forEach(link=>{
-
+        document.querySelectorAll('.sidebar a').forEach(link => {
             link.classList.remove('active');
-
         });
 
-        document.getElementById(tabId)
-        .classList.add('active');
-
+        document.getElementById(tabId).classList.add('active');
         element.classList.add('active');
 
         const titles = {
-
-            dashboard:"Teacher Dashboard",
-
-            upload:"Upload Marks",
-
-            attendance:"Attendance",
-
-            profile:"Teacher Profile"
-
+            dashboard: "Teacher Dashboard",
+            upload: "Upload Marks",
+            attendance: "Attendance",
+            profile: "Teacher Profile"
         };
-
-        document.getElementById("page-title")
-        .innerText = titles[tabId];
-
+        document.getElementById("page-title").innerText = titles[tabId];
     }
 
-
-    // Semester Subjects
-
+    // Dynamic Curriculum Subject Definitions
     const semesterSubjects = {
-
-        1:[
-            "C Programming" ,
-            "Mathematics",
-            "English",
-            "Computer Fundamentals"
-        ],
-
-        2:[
-            "C++",
-            "Data Structure",
-            "DBMS",
-            "Web Designing"
-        ],
-
-        3:[
-            "Java",
-            "Operating System",
-            "Python",
-            "Computer Network"
-        ],
-
-        4:[
-            "Software Engineering",
-            "Cloud Computing",
-            "AI",
-            "Cyber Security"
-        ],
-
-        5:[
-            "Machine Learning",
-            "Data Science",
-            "Android",
-            "Compiler Design"
-        ],
-
-        6:[
-            "Project",
-            "Internship",
-            "Viva",
-            "Seminar"
-        ]
-
+        1: ["C Programming", "Mathematics", "English", "Computer Fundamentals"],
+        2: ["C++", "Data Structure", "DBMS", "Web Designing"],
+        3: ["Java", "Operating System", "Python", "Computer Network"],
+        4: ["Software Engineering", "Cloud Computing", "AI", "Cyber Security"],
+        5: ["Machine Learning", "Data Science", "Android", "Compiler Design"],
+        6: ["Project", "Internship", "Viva", "Seminar"]
     };
 
-
-    // Generate Table
-
-    function generateTable() {
-
-    const semester = document.getElementById("semester").value;
-    const subjects = semesterSubjects[semester];
-
-    const subjectList = document.getElementById("subjectList");
-    const tableContainer = document.getElementById("tableContainer");
-
-    subjectList.innerHTML = "";
-    tableContainer.innerHTML = "";
-
-    if (!subjects) return;
-
-    subjects.forEach(sub => {
-        subjectList.innerHTML += `<div class="subject-tag">${sub}</div>`;
-    });
-
-    let form = `
-    <form method="POST" action="/uploadmarks">
-
-        <input type="hidden" name="semester" value="${semester}">
-
-        <table>
-            <tr>
-                <th>Enrollment</th>
-                <th>Batch</th>
-    `;
-
-    subjects.forEach(sub => {
-        form += `<th>${sub}</th>`;
-    });
-
-    form += `<th>Action</th></tr><tr>
-
-        <td>
-            <input type="text" name="enrollment" required>
-        </td>
-
-        <td>
-            <input type="text" name="batch" required>
-        </td>
-    `;
-
-    // IMPORTANT PART (subject + marks pairing)
-    subjects.forEach(sub => {
-        form += `
-            <td>
-                <input type="hidden" name="subject[]" value="${sub}">
-                <input type="number" name="marks[]" required>
-            </td>
-        `;
-    });
-
-    form += `
-        <td>
-            <button type="submit" class="row-submit">Submit</button>
-        </td>
-
-        </tr>
-        </table>
-    </form>
-    `;
-
-    tableContainer.innerHTML = form;
-}
-
-        // Table Start
-
-        let table = `
-
-        <table>
-
-            <tr>
-
-                <th>Student ID</th>
-
-                <th>Student Name</th>
-
-        `;
-
-
-        subjects.forEach(subject=>{
-
-            table += `<th>${subject}</th>`;
-
-        });
-
-        table += `<th>Action</th></tr>`;
-
-
-        // Row
-
-        table += `
-
-        <tr>
-
-            <td>
-
-                <input type="text"
-                       class="manual-input"
-                       placeholder="Enter ID">
-
-            </td>
-
-            <td>
-
-                <input type="text"
-                       class="manual-input"
-                       placeholder="Enter Name">
-
-            </td>
-
-        `;
-
-
-        subjects.forEach(subject=>{
-
-            table += `
-
-            <td>
-
-                <input type="number"
-                       class="marks-input"
-                       placeholder="Marks">
-
-            </td>
-
-            `;
-
-        });
-
-
-        table += `
-
-            <td>
-
-                <button class="row-submit"
-                        onclick="submitMarks(this)">
-
-                    Submit
-
-                </button>
-
-            </td>
-
-        </tr>
-
-        </table>
-
-        `;
-
-        tableContainer.innerHTML = table;
-
-
-
-    // Submit Marks
-
-    function submitMarks(btn){
-
-        const row = btn.closest("tr");
-
-        const id =
-        row.cells[0]
-        .querySelector("input").value;
-
-        const name =
-        row.cells[1]
-        .querySelector("input").value;
-
-        if(id === "" || name === ""){
-
-            alert("Please enter Student ID and Name");
-
-            return;
-
-        }
-
-        alert(
-            "Marks submitted successfully for "
-            + name +
-            " (ID: " + id + ")"
-        );
-
+    // Auto-calculates which specific 1-year session fits the current batch & semester combo
+    function determineDefaultSession(batch, semester) {
+        if (!batch) return "";
+        const startYear = parseInt(batch.split("-")[0]);
+        const semNum = parseInt(semester);
+        
+        const academicYearOffset = Math.floor((semNum - 1) / 2);
+        const calculatedStart = startYear + academicYearOffset;
+        
+        return `${calculatedStart}-${calculatedStart + 1}`;
     }
 
+    // NEW: Loops through the batch limits and creates ONLY the valid sequence of years
+    function getValidSessionsForBatch(batchString) {
+        if (!batchString) return [];
+        const parts = batchString.split("-");
+        const start = parseInt(parts[0]);
+        const end = parseInt(parts[1]);
+        
+        let validSessions = [];
+        // Generate loop based on exact course span (e.g. 2024 to 2027)
+        for (let year = start; year < end; year++) {
+            validSessions.push(`${year}-${year + 1}`);
+        }
+        return validSessions;
+    }
+
+    // Dynamically Generate Entry Form Elements
+    function generateTable() {
+        const semester = document.getElementById("semester").value;
+        const batchValue = document.getElementById("batch").value;
+        
+        const subjectList = document.getElementById("subjectList");
+        const tableContainer = document.getElementById("tableContainer");
+
+        // Clear view space
+        subjectList.innerHTML = "";
+        tableContainer.innerHTML = "";
+
+        // Only render once both constraints are explicitly selected
+        if (!semester || !batchValue) {
+            tableContainer.innerHTML = `<p style="text-align:center;color:#666;">Please select both semester and batch to open sheet.</p>`;
+            return;
+        }
+
+        const subjects = semesterSubjects[semester];
+        if (!subjects) return;
+
+        // Smart dynamic values calculation
+        const computedSession = determineDefaultSession(batchValue, semester);
+        const allowedSessions = getValidSessionsForBatch(batchValue);
+
+        // Render target active topics tags
+        subjects.forEach(sub => {
+            subjectList.innerHTML += `<div class="subject-tag">${sub}</div>`;
+        });
+
+        // Generate data processing layout structures
+        let form = `
+        <form method="POST" action="/uploadmarks">
+            <input type="hidden" name="semester" value="${semester}">
+            <input type="hidden" name="batch" value="${batchValue}">
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 150px;">Enrollment</th>
+                        <th style="width: 180px;">Session</th>
+        `;
+
+        subjects.forEach(sub => {
+            form += `<th>${sub}</th>`;
+        });
+
+        form += `
+                        <th style="width: 110px;">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <input type="text" name="enrollment" placeholder="Enrollment No" required>
+                        </td>
+                        <td>
+                            <select name="session" required>
+        `;
+
+        // Loop directly through only the relevant calculated years
+        allowedSessions.forEach(sessionOption => {
+            const isSelected = (sessionOption === computedSession) ? 'selected' : '';
+            form += `<option value="${sessionOption}" ${isSelected}>${sessionOption}</option>`;
+        });
+
+        form += `
+                            </select>
+                        </td>
+        `;
+
+        // Generate matching subject-marks array data entries
+        subjects.forEach(sub => {
+            form += `
+                        <td>
+                            <input type="hidden" name="subject[]" value="${sub}">
+                            <input type="number" name="marks[]" placeholder="Max 100" min="0" max="100" required>
+                        </td>
+            `;
+        });
+
+        form += `
+                        <td>
+                            <button type="submit" class="row-submit">Submit</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+        `;
+
+        tableContainer.innerHTML = form;
+    }
 </script>
 
 </body>
-
 </html>
