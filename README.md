@@ -9,5 +9,5 @@ Use the following test credentials to log into the different portals of the appl
 | **`snu-001`** | `soni001` | 👨‍🏫 **Teacher Login** | Faculty portal test account |
 | **`sai-12345`** | `12345678` | 🎓 **Student Login** | Alternative student test account |
 | **`sai-9090`** | `0987654` | 👨‍🏫 **Teacher Login** | Alternative faculty test account |
-| **`adm-2026`** | `sai1234` | ⚠️ **Admin Login** | *Backup account (may not work)* |
+| **`adm-2026`** | `sai1234` | ⚠️ **Admin Login** | *Backup account (may not work)* only this will work with the export file|
 
